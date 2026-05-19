@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo minimo de un slidebar</title>
+
+    
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/> <!-- Leaflet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">   <!--Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    
+    
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            color: rgb(98, 17, 50);
+        }
+    
+        header {
+            background-color: #691c32;
+            height: 5vh;
+            width: 100vw;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+    
+    
+        main {
+            display: flex;
+            height: 95vh;
+            width: 100vw;
+        }
+    
+        .titulo_analisis {
+            width: 10vw;
+            text-align: center;
+            font-size: 1.0rem;
+        }
+    
+        /* Aqui modificamos un tamaño de barra lateral */
+        .sidebar {
+            width: 10vw;
+            /* Ajusta a gusto */
+            height: 100%;
+            background-color: #222d32;
+            color: white;
+            position: fixed;
+            top: 5vh;
+            /* debajo del header */
+            transition: width 0.3s;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+    
+        /* Aqui modificamos un tamaño de barra lateral para el colapso*/
+        .sidebar.collapsed {
+            width: 0vw;
+        }
+    
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+    
+        /* Rota el ícono cuando colapsa */
+        .sidebar.collapsed .toggle-btn i {
+            transform: rotate(180deg);
+        }
+    
+    
+        /* Aqui modificamos el tamaño del mapa  */
+        .mapa_interfaz {
+            margin-left: 10vw;
+            height: 100%;
+            width: calc(100vw - 10vw);
+            transition: margin-left 0.3s, width 0.3s;
+        }
+    
+        /* Aqui modificamos un tamaño de barra lateral para el colapso */
+        .sidebar.collapsed+.mapa_interfaz {
+            margin-left: 0vw;
+            width: calc(100vw - 0vw);
+        }
+    
+        main .sidebar.collapsed~.mapa_interfaz {
+            margin-left: 0vw;
+            width: calc(100vw - 0vw);
+        }
+    
+    
+    
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class = "titulo_analisis">
+            Análisis de Incidentes 
+        </div>
+
+        <button class="toggle-btn" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+<main>
+
+    <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">
+        <div class="nav flex-column">
+            Aqui le añades lo tuyo guapa
+        </div>
+    </nav>
+
+
+
+    <div class="mapa_interfaz">
+        <div id="map"></div>
+    </div>
+
+
+
+
+
+</main>
+    
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>  <!-- Leaflet JS -->
+
+
+<script>
+    // Slidebar 
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('collapsed');
+    }
+
+
+    // Mapa
+    var map = L.map('map').setView([20.09004, -98.7679], 12);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+</script>
+</body>
+</html>
