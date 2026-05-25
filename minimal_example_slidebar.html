@@ -466,27 +466,36 @@
                 
                 //Leemos el resumen para el histórico
                 let AñoXMes = [];
-                fetch('outputs/llamadas9112025/Histórico_AñoXMes.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("No se pudo cargar el archivo Excel");
-                        }
-                        return response.arrayBuffer();
-                    })
-                    .then(data => {
-                        try {
-                            const workbook = XLSX.read(data, { type: 'array' });
-                            const firstSheetName = workbook.SheetNames[0];
-                            const worksheet = workbook.Sheets[firstSheetName];
-                            AñoXMes = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                        } catch (error) {
-                            console.error("Error al procesar el Excel:", error);
-                        }
-                    })
-                    .catch(err => console.error("Error al cargar el archivo:", err));
+                ///Promesa. 
+                tePrometoLeerExcel=new Promise((resolve,reject)=>{
+                    fetch('outputs/llamadas9112025/Histórico_AñoXMes.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("No se pudo cargar el archivo Excel");
+                            }
+                            return response.arrayBuffer();
+                        })
+                        .then(data => {
+                            try {
+                                const workbook = XLSX.read(data, { type: 'array' });
+                                const firstSheetName = workbook.SheetNames[0];
+                                const worksheet = workbook.Sheets[firstSheetName];
+                                AñoXMes = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                            } catch (error) {
+                                console.error("Error al procesar el Excel:", error);
+                            }
+                            resolve();
+                        })
+                        .catch(err => console.error("Error al cargar el archivo:", err));
+                })
+                tePrometoLeerExcel.then(()=>{
+                    Rellenar_Colonia("TIZAYUCA")
+                    //Rellenar_Incidente("TIZAYUCA","La Palma (Colonia)")
+                })
                 
                 //Leemos para la Tabla de Calor
                 let DiaXHora = [];
+
                 fetch('outputs/llamadas9112025/Tabla_DiaXHora.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
                     .then(response => {
                         if (!response.ok) {
@@ -547,10 +556,9 @@
                     primer_incidente=document.getElementById('selector_incidente').options[document.getElementById('selector_incidente').selectedIndex].text;
                     Generar_Todo(M,C,primer_incidente)
                 }
-                //setTimeout(Rellenar_Colonia("TIZAYUCA"),3000);
-                document.addEventListener("DOMContentLoaded", (event) => {
-                    Rellenar_Colonia("TIZAYUCA");
-                });
+                
+                
+
         // Mapa
         var map = L.map('map').setView([20.09004, -98.7679], 12);
 
@@ -558,6 +566,9 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+    </script>
+    <script>
+        // 
     </script>
 </body>
 </html>
