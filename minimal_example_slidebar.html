@@ -17,11 +17,6 @@
             margin: 0;
             padding: 0;
         }
-<<<<<<< HEAD
-=======
-    
-    
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
         html,
         body {
             padding: 0;
@@ -99,11 +94,8 @@
         /* Aqui modificamos el tamaño del mapa  */
         .mapa_interfaz {
             margin-left: 10vw;
-<<<<<<< HEAD
             height: 50%;
-=======
             height: 100%;
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
             width: calc(100vw - 10vw);
             transition: margin-left 0.3s, width 0.3s;
         }
@@ -126,21 +118,16 @@
             width: 100%;
         }
     </style>
-<<<<<<< HEAD
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script> <!-- Para leer excel -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap"></script>
-=======
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
 </head>
 <body>
     <header>
         <div class = "titulo_analisis">
-<<<<<<< HEAD
             Análisis de Incidentes 911 
-=======
             Análisis de Incidentes 
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
         </div>
 
         <button class="toggle-btn" aria-label="Toggle sidebar" onclick="toggleSidebar()">
@@ -148,445 +135,429 @@
         </button>
     </header>
 
-<main>
+    <main>
 
-    <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">
-        <div class="nav flex-column">
-<<<<<<< HEAD
-            <form style="position: relative; display: flex; flex-direction: column;">
-                <div id="capas-contenido">
-                    <label>Municipio</label><br>
-                    <select name="Municipio" id="selector_municipio" onchange="Rellenar_Colonia(document.getElementById('selector_municipio').options[document.getElementById('selector_municipio').selectedIndex].text)">
-                        <option value="1">ACATLÁN</option>
-                        <option value="2">ACAXOCHITLÁN</option>
-                        <option value="3">ACTOPAN</option>
-                        <option value="4">AGUA BLANCA DE ITURBIDE</option>
-                        <option value="5">AJACUBA</option>
-                        <option value="6">ALFAJAYUCAN</option>
-                        <option value="7">ALMOLOYA</option>
-                        <option value="8">APAN</option>
-                        <option value="9">EL ARENAL</option>
-                        <option value="10">ATITALAQUIA</option>
-                        <option value="11">ATLAPEXCO</option>
-                        <option value="12">ATOTONILCO EL GRANDE</option>
-                        <option value="13">ATOTONILCO DE TULA</option>
-                        <option value="14">CALNALI</option>
-                        <option value="15">CARDONAL</option>
-                        <option value="16">CUAUTEPEC DE HINOJOSA</option>
-                        <option value="17">CHAPANTONGO</option>
-                        <option value="18">CHAPULHUACÁN</option>
-                        <option value="19">CHILCUAUTLA</option>
-                        <option value="20">ELOXOCHITLÁN</option>
-                        <option value="21">EMILIANO ZAPATA</option>
-                        <option value="22">EPAZOYUCAN</option>
-                        <option value="23">FRANCISCO I. MADERO</option>
-                        <option value="24">HUASCA DE OCAMPO</option>
-                        <option value="25">HUAUTLA</option>
-                        <option value="26">HUAZALINGO</option>
-                        <option value="27">HUEHUETLA</option>
-                        <option value="28">HUEJUTLA DE REYES</option>
-                        <option value="29">HUICHAPAN</option>
-                        <option value="30">IXMIQUILPAN</option>
-                        <option value="31">JACALA DE LEDEZMA</option>
-                        <option value="32">JALTOCÁN</option>
-                        <option value="33">JUÁREZ HIDALGO</option>
-                        <option value="34">LOLOTLA</option>
-                        <option value="35">METEPEC</option>
-                        <option value="36">SAN AGUSTÍN METZQUITITLÁN</option>
-                        <option value="37">METZTITLÁN</option>
-                        <option value="38">MINERAL DEL CHICO</option>
-                        <option value="39">MINERAL DEL MONTE</option>
-                        <option value="40">LA MISIÓN</option>
-                        <option value="41">MIXQUIAHUALA DE JUÁREZ</option>
-                        <option value="42">MOLANGO DE ESCAMILLA</option>
-                        <option value="43">NICOLÁS FLORES</option>
-                        <option value="44">NOPALA DE VILLAGRÁN</option>
-                        <option value="45">OMITLÁN DE JUÁREZ</option>
-                        <option value="46">SAN FELIPE ORIZATLÁN</option>
-                        <option value="47">PACULA</option>
-                        <option value="48" selected>PACHUCA DE SOTO</option>
-                        <option value="49">PISAFLORES</option>
-                        <option value="50">PROGRESO DE OBREGÓN</option>
-                        <option value="51">MINERAL DE LA REFORMA</option>
-                        <option value="52">SAN AGUSTÍN TLAXIACA</option>
-                        <option value="53">SAN BARTOLO TUTOTEPEC</option>
-                        <option value="54">SAN SALVADOR</option>
-                        <option value="55">SANTIAGO DE ANAYA</option>
-                        <option value="56">SANTIAGO TULANTEPEC DE LUGO GUERRERO</option>
-                        <option value="57">SINGUILUCAN</option>
-                        <option value="58">TASQUILLO</option>
-                        <option value="59">TECOZAUTLA</option>
-                        <option value="60">TENANGO DE DORIA</option>
-                        <option value="61">TEPEAPULCO</option>
-                        <option value="62">TEPEHUACÁN DE GUERRERO</option>
-                        <option value="63">TEPEJI DEL RÍO DE OCAMPO</option>
-                        <option value="64">TEPETITLÁN</option>
-                        <option value="65">TETEPANGO</option>
-                        <option value="66">VILLA DE TEZONTEPEC</option>
-                        <option value="67">TEZONTEPEC DE ALDAMA</option>
-                        <option value="68">TIANGUISTENGO</option>
-                        <option value="69">TIZAYUCA</option>
-                        <option value="70">TLAHUELILPAN</option>
-                        <option value="71">TLAHUILTEPA</option>
-                        <option value="72">TLANALAPA</option>
-                        <option value="73">TLANCHINOL</option>
-                        <option value="74">TLAXCOAPAN</option>
-                        <option value="75">TOLCAYUCA</option>
-                        <option value="76">TULA DE ALLENDE</option>
-                        <option value="77">TULANCINGO DE BRAVO</option>
-                        <option value="78">XOCHIATIPAN</option>
-                        <option value="79">XOCHICOATLÁN</option>
-                        <option value="80">YAHUALICA</option>
-                        <option value="81">ZACUALTIPÁN DE ÁNGELES</option>
-                        <option value="82">ZAPOTLÁN DE JUÁREZ</option>
-                        <option value="83">ZEMPOALA</option>
-                        <option value="84">ZIMAPÁN</option>
-                        </select>
-                    </div>
-                </form>
+        <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">
+            <div class="nav flex-column">
                 <form style="position: relative; display: flex; flex-direction: column;">
                     <div id="capas-contenido">
-                        <label>Colonia</label><br>
-                        <select name="Colonia" id="selector_colonia"  onchange="Rellenar_Incidente(MUNICIPIO,document.getElementById('selector_colonia').options[document.getElementById('selector_colonia').selectedIndex].text)">
-                            <option value="1" selected>CENTRO (Colonia)</option>
-                        </select>
-                    </div>
-                </form>
-                <form style="position: relative; display: flex; flex-direction: column;">
-                    <div id="capas-contenido">
-                        <label>Incidente</label><br>
-                        <select name="Indicador" id="selector_incidente" onchange="Generar_Todo(MUNICIPIO,COLONIA,document.getElementById('selector_incidente').options[document.getElementById('selector_incidente').selectedIndex].text)">
-                            <option value="1" selected>OTRAS ALARMAS DE EMERGENCIAS ACTIVADAS (SEGURIDAD)</option>
-                        </select>
-                    </div>
-                </form>
-=======
-            Aqui le añades lo tuyo guapa
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
+                        <label>Municipio</label><br>
+                        <select name="Municipio" id="selector_municipio" onchange="Rellenar_Colonia(document.getElementById('selector_municipio').options[document.getElementById('selector_municipio').selectedIndex].text)">
+                            <option value="1">ACATLÁN</option>
+                            <option value="2">ACAXOCHITLÁN</option>
+                            <option value="3">ACTOPAN</option>
+                            <option value="4">AGUA BLANCA DE ITURBIDE</option>
+                            <option value="5">AJACUBA</option>
+                            <option value="6">ALFAJAYUCAN</option>
+                            <option value="7">ALMOLOYA</option>
+                            <option value="8">APAN</option>
+                            <option value="9">EL ARENAL</option>
+                            <option value="10">ATITALAQUIA</option>
+                            <option value="11">ATLAPEXCO</option>
+                            <option value="12">ATOTONILCO EL GRANDE</option>
+                            <option value="13">ATOTONILCO DE TULA</option>
+                            <option value="14">CALNALI</option>
+                            <option value="15">CARDONAL</option>
+                            <option value="16">CUAUTEPEC DE HINOJOSA</option>
+                            <option value="17">CHAPANTONGO</option>
+                            <option value="18">CHAPULHUACÁN</option>
+                            <option value="19">CHILCUAUTLA</option>
+                            <option value="20">ELOXOCHITLÁN</option>
+                            <option value="21">EMILIANO ZAPATA</option>
+                            <option value="22">EPAZOYUCAN</option>
+                            <option value="23">FRANCISCO I. MADERO</option>
+                            <option value="24">HUASCA DE OCAMPO</option>
+                            <option value="25">HUAUTLA</option>
+                            <option value="26">HUAZALINGO</option>
+                            <option value="27">HUEHUETLA</option>
+                            <option value="28">HUEJUTLA DE REYES</option>
+                            <option value="29">HUICHAPAN</option>
+                            <option value="30">IXMIQUILPAN</option>
+                            <option value="31">JACALA DE LEDEZMA</option>
+                            <option value="32">JALTOCÁN</option>
+                            <option value="33">JUÁREZ HIDALGO</option>
+                            <option value="34">LOLOTLA</option>
+                            <option value="35">METEPEC</option>
+                            <option value="36">SAN AGUSTÍN METZQUITITLÁN</option>
+                            <option value="37">METZTITLÁN</option>
+                            <option value="38">MINERAL DEL CHICO</option>
+                            <option value="39">MINERAL DEL MONTE</option>
+                            <option value="40">LA MISIÓN</option>
+                            <option value="41">MIXQUIAHUALA DE JUÁREZ</option>
+                            <option value="42">MOLANGO DE ESCAMILLA</option>
+                            <option value="43">NICOLÁS FLORES</option>
+                            <option value="44">NOPALA DE VILLAGRÁN</option>
+                            <option value="45">OMITLÁN DE JUÁREZ</option>
+                            <option value="46">SAN FELIPE ORIZATLÁN</option>
+                            <option value="47">PACULA</option>
+                            <option value="48" selected>PACHUCA DE SOTO</option>
+                            <option value="49">PISAFLORES</option>
+                            <option value="50">PROGRESO DE OBREGÓN</option>
+                            <option value="51">MINERAL DE LA REFORMA</option>
+                            <option value="52">SAN AGUSTÍN TLAXIACA</option>
+                            <option value="53">SAN BARTOLO TUTOTEPEC</option>
+                            <option value="54">SAN SALVADOR</option>
+                            <option value="55">SANTIAGO DE ANAYA</option>
+                            <option value="56">SANTIAGO TULANTEPEC DE LUGO GUERRERO</option>
+                            <option value="57">SINGUILUCAN</option>
+                            <option value="58">TASQUILLO</option>
+                            <option value="59">TECOZAUTLA</option>
+                            <option value="60">TENANGO DE DORIA</option>
+                            <option value="61">TEPEAPULCO</option>
+                            <option value="62">TEPEHUACÁN DE GUERRERO</option>
+                            <option value="63">TEPEJI DEL RÍO DE OCAMPO</option>
+                            <option value="64">TEPETITLÁN</option>
+                            <option value="65">TETEPANGO</option>
+                            <option value="66">VILLA DE TEZONTEPEC</option>
+                            <option value="67">TEZONTEPEC DE ALDAMA</option>
+                            <option value="68">TIANGUISTENGO</option>
+                            <option value="69">TIZAYUCA</option>
+                            <option value="70">TLAHUELILPAN</option>
+                            <option value="71">TLAHUILTEPA</option>
+                            <option value="72">TLANALAPA</option>
+                            <option value="73">TLANCHINOL</option>
+                            <option value="74">TLAXCOAPAN</option>
+                            <option value="75">TOLCAYUCA</option>
+                            <option value="76">TULA DE ALLENDE</option>
+                            <option value="77">TULANCINGO DE BRAVO</option>
+                            <option value="78">XOCHIATIPAN</option>
+                            <option value="79">XOCHICOATLÁN</option>
+                            <option value="80">YAHUALICA</option>
+                            <option value="81">ZACUALTIPÁN DE ÁNGELES</option>
+                            <option value="82">ZAPOTLÁN DE JUÁREZ</option>
+                            <option value="83">ZEMPOALA</option>
+                            <option value="84">ZIMAPÁN</option>
+                            </select>
+                        </div>
+                    </form>
+                    <form style="position: relative; display: flex; flex-direction: column;">
+                        <div id="capas-contenido">
+                            <label>Colonia</label><br>
+                            <select name="Colonia" id="selector_colonia"  onchange="Rellenar_Incidente(MUNICIPIO,document.getElementById('selector_colonia').options[document.getElementById('selector_colonia').selectedIndex].text)">
+                                <option value="1" selected>CENTRO (Colonia)</option>
+                            </select>
+                        </div>
+                    </form>
+                    <form style="position: relative; display: flex; flex-direction: column;">
+                        <div id="capas-contenido">
+                            <label>Incidente</label><br>
+                            <select name="Indicador" id="selector_incidente" onchange="Generar_Todo(MUNICIPIO,COLONIA,document.getElementById('selector_incidente').options[document.getElementById('selector_incidente').selectedIndex].text)">
+                                <option value="1" selected>OTRAS ALARMAS DE EMERGENCIAS ACTIVADAS (SEGURIDAD)</option>
+                            </select>
+                        </div>
+                    </form>
+                Aqui le añades lo tuyo guapa
+            </div>
+        </nav>
+
+
+
+        <div class="mapa_interfaz">
+            <div id="map"></div>
         </div>
-    </nav>
+
+        <div style="width: 50%; height: 50%;">
+            <canvas id="miTreemap"></canvas>
+        </div>
+        <br>
+        <div style="width: 50%; height: 50%;">
+            <canvas id="miBarras"></canvas>
+        </div>
 
 
-
-    <div class="mapa_interfaz">
-        <div id="map"></div>
-    </div>
-<<<<<<< HEAD
-    <div style="width: 50%; height: 50%;">
-        <canvas id="miTreemap"></canvas>
-    </div>
-    <br>
-    <div style="width: 50%; height: 50%;">
-        <canvas id="miBarras"></canvas>
-    </div>
-=======
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
-
-
-
-
-
-</main>
+    </main>
     
 
 
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>  <!-- Leaflet JS -->
-<<<<<<< HEAD
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="codigos\JS\Cargar_Resumen.js"></script>
-<script>
-    let chart;
-    let Hist;
-=======
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>  <!-- Leaflet JS -->
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="codigos\JS\Cargar_Resumen.js"></script>
+    <script>
+        let chart;
+        let Hist;
 
-<script>
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
-    // Slidebar 
-    function toggleSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.toggle('collapsed');
-    }
-<<<<<<< HEAD
-    //Esta es la que genera los cuatro graficos
-    //Habrá que llamarla cada vez que se cambie el municipio (M), la colonia (C) o el incidente (I)
-        MUNICIPIO="PACHUCA DE SOTO"
-        COLONIA="CENTRO (Colonia)"
-        INCIDENTE="OTRAS ALARMAS DE EMERGENCIAS ACTIVADAS (SEGURIDAD)"
-    var mapa = L.map('map').setView([20.1, -98.7], 13);
+        // Slidebar 
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+        //Esta es la que genera los cuatro graficos
+        //Habrá que llamarla cada vez que se cambie el municipio (M), la colonia (C) o el incidente (I)
+            MUNICIPIO="PACHUCA DE SOTO"
+            COLONIA="CENTRO (Colonia)"
+            INCIDENTE="OTRAS ALARMAS DE EMERGENCIAS ACTIVADAS (SEGURIDAD)"
+        var mapa = L.map('map').setView([20.1, -98.7], 13);
 
-                //Capa base
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© OpenStreetMap'
-                }).addTo(mapa);
-    let Mapa_Act;
-    function Generar_Todo(M,C,I){
-                //MAPA primero
-                const filtrado = {
-                    type: "FeatureCollection",
-                    features: INFO.features.filter(feature => 
-                        feature.properties.Municipio === M &&
-                        //feature.properties.Colonia === C &&
-                        feature.properties.Incidente === I
-                    )
-                };
-                let colonia_act={
-                    type: "FeatureCollection",
-                    features: filtrado.features.filter(
-                        feature => feature.properties.Colonia === C 
-                    )
-                };
-                
+                    //Capa base
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap'
+                    }).addTo(mapa);
+        let Mapa_Act;
+        function Generar_Todo(M,C,I){
+                    //MAPA primero
+                    const filtrado = {
+                        type: "FeatureCollection",
+                        features: INFO.features.filter(feature => 
+                            feature.properties.Municipio === M &&
+                            //feature.properties.Colonia === C &&
+                            feature.properties.Incidente === I
+                        )
+                    };
+                    let colonia_act={
+                        type: "FeatureCollection",
+                        features: filtrado.features.filter(
+                            feature => feature.properties.Colonia === C 
+                        )
+                    };
+                    
 
-                if (Mapa_Act) {
-                    mapa.removeLayer(Mapa_Act);
-                }
-                Mapa_Act=L.geoJSON(filtrado, {
-                    pointToLayer: function (feature, latlng) {
-                        // Crear el círculo y ajustar el radio según una propiedad (feature.properties)
-                        return L.circleMarker(latlng, {
-                            radius: feature.properties.Recuento * 0.1,
-                            fillColor: "#ff7800",
-                            color: "#000",
-                            weight: 1,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        });
-                    },
-                    onEachFeature: function (feature, layer) {
-                        // Añadir un popup opcional si hay propiedades
-                        if (feature.properties && feature.properties.Recuento) {
-                            layer.bindPopup("<b>"+feature.properties.Colonia+"</b>"+"<br>"+"<b>" + feature.properties.Recuento + "</b>");
-                        }
+                    if (Mapa_Act) {
+                        mapa.removeLayer(Mapa_Act);
                     }
-                })
-                Mapa_Act.addTo(mapa);
-                const Colonia_feature = {
-                    type: "FeatureCollection",
-                    features: INFO.features.filter(feature => 
-                        feature.properties.Municipio === M &&
-                        feature.properties.Colonia === C
-                    )
-                };
-                const datosParaGrafica = Colonia_feature.features.map(f => ({
-                    categoria: f.properties.Incidente, // Extraemos la columna
-                    valor: f.properties.Recuento          // Extraemos la columna
-                }));
-
-                const top10Datos = datosParaGrafica
-                .sort((a, b) => b.valor - a.valor) // Orden descendente
-                .slice(0, 10);
-
-                const ctx = document.getElementById('miTreemap').getContext('2d');
-                
-                if (chart) {
-                    chart.destroy();
-                }
-                chart = new Chart(ctx, {
-                    type: 'treemap',
-                    data: {
-                        datasets: [{
-                            label: 'Incidentes en'+C,
-                            // Usamos el arreglo que mapeamos anteriormente
-                            tree: top10Datos, 
-                            key: 'valor',
-                            groups: ['categoria'],
-                            spacing: 1,
-                            borderWidth: 1,
-                            borderColor: 'white',
-                            labels: {
-                                display: true,
-                                formatter: (ctx) => {
-                                    const data = ctx.raw._data;
-                                    return [`${data.categoria}`, `Total: ${data.valor}`];
-                                },
-                                font: { size: 12, weight: 'bold' },
-                                color: 'white'
-                            },
-                            backgroundColor: (ctx) => {
-                                const colors = ['#4A0E4E', '#483D8B', '#3B5998', '#20B2AA', '#32CD32'];
-                                return colors[ctx.dataIndex % colors.length];
+                    Mapa_Act=L.geoJSON(filtrado, {
+                        pointToLayer: function (feature, latlng) {
+                            // Crear el círculo y ajustar el radio según una propiedad (feature.properties)
+                            return L.circleMarker(latlng, {
+                                radius: feature.properties.Recuento * 0.1,
+                                fillColor: "#ff7800",
+                                color: "#000",
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+                        },
+                        onEachFeature: function (feature, layer) {
+                            // Añadir un popup opcional si hay propiedades
+                            if (feature.properties && feature.properties.Recuento) {
+                                layer.bindPopup("<b>"+feature.properties.Colonia+"</b>"+"<br>"+"<b>" + feature.properties.Recuento + "</b>");
                             }
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: (item) => ` Valor: ${item.raw.v}`
+                        }
+                    })
+                    Mapa_Act.addTo(mapa);
+                    const Colonia_feature = {
+                        type: "FeatureCollection",
+                        features: INFO.features.filter(feature => 
+                            feature.properties.Municipio === M &&
+                            feature.properties.Colonia === C
+                        )
+                    };
+                    const datosParaGrafica = Colonia_feature.features.map(f => ({
+                        categoria: f.properties.Incidente, // Extraemos la columna
+                        valor: f.properties.Recuento          // Extraemos la columna
+                    }));
+
+                    const top10Datos = datosParaGrafica
+                    .sort((a, b) => b.valor - a.valor) // Orden descendente
+                    .slice(0, 10);
+
+                    const ctx = document.getElementById('miTreemap').getContext('2d');
+                    
+                    if (chart) {
+                        chart.destroy();
+                    }
+                    chart = new Chart(ctx, {
+                        type: 'treemap',
+                        data: {
+                            datasets: [{
+                                label: 'Incidentes en'+C,
+                                // Usamos el arreglo que mapeamos anteriormente
+                                tree: top10Datos, 
+                                key: 'valor',
+                                groups: ['categoria'],
+                                spacing: 1,
+                                borderWidth: 1,
+                                borderColor: 'white',
+                                labels: {
+                                    display: true,
+                                    formatter: (ctx) => {
+                                        const data = ctx.raw._data;
+                                        return [`${data.categoria}`, `Total: ${data.valor}`];
+                                    },
+                                    font: { size: 12, weight: 'bold' },
+                                    color: 'white'
+                                },
+                                backgroundColor: (ctx) => {
+                                    const colors = ['#4A0E4E', '#483D8B', '#3B5998', '#20B2AA', '#32CD32'];
+                                    return colors[ctx.dataIndex % colors.length];
+                                }
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (item) => ` Valor: ${item.raw.v}`
+                                    }
+                                },
+                                title: {
+                                    text: "Incidentes en "+C,
+                                    display: true
                                 }
                             },
-                            title: {
-                                text: "Incidentes en "+C,
-                                display: true
-                            }
-                        },
-                        maintainAspectRatio: false
-                    }
-                });
+                            maintainAspectRatio: false
+                        }
+                    });
 
-                //Puntos con regresión líneal
-                // 1. Datos iniciales de los puntos (Eje X e Y)
-const puntos = [
-    { x: 1, y: 2 },
-    { x: 2, y: 3.5 },
-    { x: 3, y: 4 },
-    { x: 4, y: 6.5 },
-    { x: 5, y: 7 }
-];
+                    //Puntos con regresión líneal
+                    // 1. Datos iniciales de los puntos (Eje X e Y)
+    const puntos = [
+        { x: 1, y: 2 },
+        { x: 2, y: 3.5 },
+        { x: 3, y: 4 },
+        { x: 4, y: 6.5 },
+        { x: 5, y: 7 }
+    ];
 
-// 2. Calcular la línea de tendencia (y = mx + b)
-// Para este ejemplo, usaremos una pendiente(m) de 1.2 y una intersección(b) de 1.0
-const m = 1.2; 
-const b = 1.0;
+    // 2. Calcular la línea de tendencia (y = mx + b)
+    // Para este ejemplo, usaremos una pendiente(m) de 1.2 y una intersección(b) de 1.0
+    const m = 1.2; 
+    const b = 1.0;
 
-const lineaRegresion = puntos.map(punto => ({
-    x: punto.x,
-    y: (m * punto.x) + b
-}));
+    const lineaRegresion = puntos.map(punto => ({
+        x: punto.x,
+        y: (m * punto.x) + b
+    }));
 
-// 3. Crear el gráfico combinado
-const ctx2 = document.getElementById('miBarras').getContext('2d');
-if (Hist) {
-    Hist.destroy();
-}
-Hist = new Chart(ctx2, {
-    type: 'line', // Tipo base scatter
-    data: {
-        datasets: [
-            {
-                label: 'Datos Experimentales',
-                data: puntos,
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-                pointRadius: 6
-            },
-            {
-                label: 'Línea de Regresión',
-                data: lineaRegresion,
-                type: 'line', // Sobrescribimos a tipo línea para unir los puntos
-                showLine: true, // Forzamos que se dibuje la línea
-                fill: false,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                pointRadius: 0 // Ocultamos los puntos de la línea
-            }
-        ]
-    },
-    options: {
-        scales: {
-            x: {
-                type: 'linear', 
-                title: { display: true, text: 'Mes y Año' } },
-            y: { title: { display: true, text: 'Cantidad de Llamadas' } }
-        }
+    // 3. Crear el gráfico combinado
+    const ctx2 = document.getElementById('miBarras').getContext('2d');
+    if (Hist) {
+        Hist.destroy();
     }
-});
+    Hist = new Chart(ctx2, {
+        type: 'line', // Tipo base scatter
+        data: {
+            datasets: [
+                {
+                    label: 'Datos Experimentales',
+                    data: puntos,
+                    backgroundColor: 'rgba(255, 99, 132, 1)',
+                    pointRadius: 6
+                },
+                {
+                    label: 'Línea de Regresión',
+                    data: lineaRegresion,
+                    type: 'line', // Sobrescribimos a tipo línea para unir los puntos
+                    showLine: true, // Forzamos que se dibuje la línea
+                    fill: false,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointRadius: 0 // Ocultamos los puntos de la línea
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'linear', 
+                    title: { display: true, text: 'Mes y Año' } },
+                y: { title: { display: true, text: 'Cantidad de Llamadas' } }
             }
-            
-            //Leemos el resumen para el histórico
-            let AñoXMes = [];
-            fetch('outputs/llamadas9112025/Histórico_AñoXMes.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("No se pudo cargar el archivo Excel");
-                    }
-                    return response.arrayBuffer();
-                })
-                .then(data => {
-                    try {
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const firstSheetName = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[firstSheetName];
-                        AñoXMes = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                    } catch (error) {
-                        console.error("Error al procesar el Excel:", error);
-                    }
-                })
-                .catch(err => console.error("Error al cargar el archivo:", err));
-            
-            //Leemos para la Tabla de Calor
-            let DiaXHora = [];
-            fetch('outputs/llamadas9112025/Tabla_DiaXHora.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("No se pudo cargar el archivo Excel");
-                    }
-                    return response.arrayBuffer();
-                })
-                .then(data => {
-                    try {
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const firstSheetName = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[firstSheetName];
-                        DiaXHora = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                    } catch (error) {
-                        console.error("Error al procesar el Excel:", error);
-                    }
-                })
-                .catch(err => console.error("Error al cargar el archivo:", err));
+        }
+    });
+                }
+                
+                //Leemos el resumen para el histórico
+                let AñoXMes = [];
+                fetch('outputs/llamadas9112025/Histórico_AñoXMes.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("No se pudo cargar el archivo Excel");
+                        }
+                        return response.arrayBuffer();
+                    })
+                    .then(data => {
+                        try {
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+                            AñoXMes = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        } catch (error) {
+                            console.error("Error al procesar el Excel:", error);
+                        }
+                    })
+                    .catch(err => console.error("Error al cargar el archivo:", err));
+                
+                //Leemos para la Tabla de Calor
+                let DiaXHora = [];
+                fetch('outputs/llamadas9112025/Tabla_DiaXHora.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("No se pudo cargar el archivo Excel");
+                        }
+                        return response.arrayBuffer();
+                    })
+                    .then(data => {
+                        try {
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+                            DiaXHora = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        } catch (error) {
+                            console.error("Error al procesar el Excel:", error);
+                        }
+                    })
+                    .catch(err => console.error("Error al cargar el archivo:", err));
 
-            //Colonia
-            function Rellenar_Colonia(M){//M nos dirá el municipio que se ha escogido
-                MUNICIPIO=M;
-                const menu = document.getElementById("selector_colonia");
-                menu.innerHTML = ""; // Se supone que borra fácil TODAS las opciones del select
+                //Colonia
+                function Rellenar_Colonia(M){//M nos dirá el municipio que se ha escogido
+                    MUNICIPIO=M;
+                    const menu = document.getElementById("selector_colonia");
+                    menu.innerHTML = ""; // Se supone que borra fácil TODAS las opciones del select
 
-                let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
-                let lista_sucia= filtrado_M.map(fila => fila[0]); //Se repiten (por eso sucia jsjsj)
-                let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
+                    let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
+                    let lista_sucia= filtrado_M.map(fila => fila[0]); //Se repiten (por eso sucia jsjsj)
+                    let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
 
-                lista.forEach((colonia,i) => {
-                    const opcion = document.createElement("option");
-                    opcion.value = i+1;
-                    opcion.text = colonia;
-                    menu.appendChild(opcion);
+                    lista.forEach((colonia,i) => {
+                        const opcion = document.createElement("option");
+                        opcion.value = i+1;
+                        opcion.text = colonia;
+                        menu.appendChild(opcion);
+                    });
+                    let primera_colonia=document.getElementById('selector_colonia').options[document.getElementById('selector_colonia').selectedIndex].text;
+                    Rellenar_Incidente(M,primera_colonia); //Como ya tenemos el tema ahora podemos llenar el Indicador
+                }
+
+                //Incidente
+                function Rellenar_Incidente(M,C){//M nos dirá el municipio que se ha escogido
+                    //y C la colonia elegida
+                    COLONIA=C;
+                    const menu = document.getElementById("selector_incidente");
+                    menu.innerHTML = ""; // Se supone que borra fácil TODAS las opciones del select
+
+                    let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
+                    let filtrado_M2=filtrado_M.filter(v => v[0] === C);
+                    let lista_sucia= filtrado_M2.map(fila => fila[2]); //Se repiten (por eso sucia jsjsj)
+                    let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
+
+                    lista.forEach((incidente,i) => {
+                        const opcion = document.createElement("option");
+                        opcion.value = i+1;
+                        opcion.text = incidente;
+                        menu.appendChild(opcion);
+                    });
+                    primer_incidente=document.getElementById('selector_incidente').options[document.getElementById('selector_incidente').selectedIndex].text;
+                    Generar_Todo(M,C,primer_incidente)
+                }
+                //setTimeout(Rellenar_Colonia("TIZAYUCA"),3000);
+                document.addEventListener("DOMContentLoaded", (event) => {
+                    Rellenar_Colonia("TIZAYUCA");
                 });
-                let primera_colonia=document.getElementById('selector_colonia').options[document.getElementById('selector_colonia').selectedIndex].text;
-                Rellenar_Incidente(M,primera_colonia); //Como ya tenemos el tema ahora podemos llenar el Indicador
-            }
+        // Mapa
+        var map = L.map('map').setView([20.09004, -98.7679], 12);
 
-            //Incidente
-            function Rellenar_Incidente(M,C){//M nos dirá el municipio que se ha escogido
-                //y C la colonia elegida
-                COLONIA=C;
-                const menu = document.getElementById("selector_incidente");
-                menu.innerHTML = ""; // Se supone que borra fácil TODAS las opciones del select
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-                let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
-                let filtrado_M2=filtrado_M.filter(v => v[0] === C);
-                let lista_sucia= filtrado_M2.map(fila => fila[2]); //Se repiten (por eso sucia jsjsj)
-                let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
-
-                lista.forEach((incidente,i) => {
-                    const opcion = document.createElement("option");
-                    opcion.value = i+1;
-                    opcion.text = incidente;
-                    menu.appendChild(opcion);
-                });
-                primer_incidente=document.getElementById('selector_incidente').options[document.getElementById('selector_incidente').selectedIndex].text;
-                Generar_Todo(M,C,primer_incidente)
-            }
-            //setTimeout(Rellenar_Colonia("TIZAYUCA"),3000);
-            document.addEventListener("DOMContentLoaded", (event) => {
-                Rellenar_Colonia("TIZAYUCA");
-            });
-=======
-
-
-    // Mapa
-    var map = L.map('map').setView([20.09004, -98.7679], 12);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
->>>>>>> 69de8a0c154feff1bdcccf84338edc383b2fdfbe
-</script>
+    </script>
 </body>
 </html>

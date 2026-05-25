@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 inputs/llamadas9112025/*
-outputs/llamadas9112025/*
+
 .positai
 !inputs/llamadas9112025/datos_dummy.csv
 !outputs/llamadas9112025/llamadas9112025.csv
