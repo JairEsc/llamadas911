@@ -240,9 +240,9 @@
 
         //Necesitamos estas variables globales que serán las que nos dirá
         //que selección tenemos para cada filtro actualmente
-        MUNICIPIO="PACHUCA DE SOTO";
-        COLONIA="CENTRO (Colonia)";
-        INCIDENTE="OTRAS ALARMAS DE EMERGENCIAS ACTIVADAS (SEGURIDAD)";
+        MUNICIPIO="Pachuca De Soto";
+        COLONIA="Centro (Colonia)";
+        INCIDENTE="Otras Alarmas De Emergencias Activadas (Seguridad)";
 
         //Slidebar 
         function toggleSidebar() {
@@ -622,7 +622,7 @@
                 let AñoXMes = [];
                 ///Promesa. 
                 tePrometoLeerExcel=new Promise((resolve,reject)=>{
-                    fetch('outputs/llamadas9112025/Histórico_AñoXMes.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
+                    fetch('outputs/llamadas9112025/Histórico_AñoXMes_new.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error("No se pudo cargar el archivo Excel");
@@ -650,7 +650,7 @@
                 //Leemos para la Tabla de Calor
                 let DiaXHora = [];
                 tePrometoLeerExcel2=new Promise((resolve,reject)=>{
-                fetch('outputs/llamadas9112025/Tabla_DiaXHora.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
+                fetch('outputs/llamadas9112025/Tabla_DiaXHora_new.xlsx') // Debe estar accesible públicamente (Qué se supone que significa eso?)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("No se pudo cargar el archivo Excel");
