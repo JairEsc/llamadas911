@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo minimo de un slidebar</title>
+    <title>Análisis de Incidentes 911</title>
 
     
     
@@ -13,10 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">   <!--Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
         html,
         body {
             padding: 0;
@@ -116,18 +112,51 @@
             margin-left: 0vw;
             width: calc(100vw - 0vw);
         }
-        #map{
+
+        #graficas_entorno_superior {
+            display: flex;
+            justify-content: space-around;
+            /* separación uniforme */
+            align-items: center;
+            height: 50%;
             width: 100%;
-            height: 100%;
         }
-        
-        
+
+        #graficas_entorno_inferior {
+            display: flex;
+            justify-content: space-around;
+            /* separación uniforme */
+            align-items: center;
+            height: 50%;
+            width: 100%;
+        }
+
         .chart-container {
             background: #fff;
             border: 1px solid #ddd;
-            padding: 10px;
-            /* Importante para que Chart.js detecte bien el tamaño */
-            position: relative; 
+            padding: 1%;
+            width: 95%;
+            height: 95%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        #miBarras {
+            width: 100%;
+            height: 100%;
+        }
+
+        #miTreemap {
+            width: 100%;
+            height: 100%;
+        }
+
+        #heatmap {
+            width: 100% !important;
+            height: 100%;
         }
 
     </style>
@@ -151,9 +180,7 @@
 
     <main>
 
-        <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">
-            
-                
+        <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">     
                 Municipio:
                 
                 <input type="text" id="selector_municipio" list="Mpios" placeholder="" style="width: 18vw;" onchange="Rellenar_Colonia(this.value)">
@@ -178,20 +205,23 @@
 
         <!--MAPA-->
         <div class="mapa_interfaz">
-            <div class="chart-container">
-                <div id="map"></div>
+            <div id="graficas-superiores">
+                <div class="chart-container">
+                    <div id="map"></div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="miBarras"></canvas>
+                </div>
             </div>
-            <div class="chart-container">
-                <canvas id="miBarras" style="width: 100%;"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="miTreemap" style="width: 100%;"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="heatmap" style="width: 100%;"></canvas>
+            <div id="graficas-inferiores">
+                <div class="chart-container">
+                    <canvas id="miTreemap"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="heatmap"></canvas>
+                </div>
             </div>
         </div>
-
     </main>
     
 
@@ -312,11 +342,7 @@
                                         "<hr style='border: 0; height: 4px; background: linear-gradient(to right, transparent, #404040, transparent); margin: 10px 0 15px 0;'>"+
                                         "<h4  style='text-align: center; font-size: medium;'>Llamadas totales: "+
                                         feature.properties.Recuento +
-                                        "</h4>"+
-                                        '<img src="images.png" alt="Logo 911" width="100%">',
-                                    {
-                                        maxWith: "8vw"
-                                    });
+                                        "</h4>");
                     }
                 }
             });
@@ -660,9 +686,8 @@
                     //Limpiamos
                     datalist.innerHTML = '';
 
-                    let lista_sucia= AñoXMes.map(fila => fila[1]); //Se repiten (por eso sucia jsjsj)
-                    let lista_sucia2=lista_sucia.filter(num => num !== "Municipio");
-                    let lista = lista_sucia2.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
+                    let lista = [...new Set(AñoXMes.map(fila => fila[1]))].filter(num => num !== "Municipio");
+                    //console.log("Lista limpia municipio:", lista);        
 
                     //Vamos metiendolos
                     lista.forEach(item => {
@@ -690,8 +715,7 @@
                     datalist.innerHTML = '';
 
                     let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
-                    let lista_sucia= filtrado_M.map(fila => fila[0]); //Se repiten (por eso sucia jsjsj)
-                    let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
+                    let lista = [...new Set(filtrado_M.map(fila => fila[0]))].filter(num => num !== "Colonia"); //Esto hace lo mismo pero con un set, además de eliminar el título de la columna
 
                     //Vamos metiendolos
                     lista.forEach(item => {
@@ -719,8 +743,7 @@
 
                     let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
                     let filtrado_M2=filtrado_M.filter(v => v[0] === C);
-                    let lista_sucia= filtrado_M2.map(fila => fila[2]); //Se repiten (por eso sucia jsjsj)
-                    let lista = lista_sucia.filter((item, index) => lista_sucia.indexOf(item) === index); //Esto limpia como un unique
+                    let lista = [...new Set(filtrado_M2.map(fila => fila[2]))].filter(num => num !== "Incidente"); //Esto hace lo mismo pero con un set, además de eliminar el título de la columna
 
                     //Vamos metiendolos
                     lista.forEach(item => {
