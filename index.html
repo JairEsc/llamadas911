@@ -195,7 +195,7 @@
                 </datalist>
                 Incidente:
                 
-                <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;" onchange="Generar_Todo(MUNICIPIO,COLONIA,this.value)">
+                <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;" onchange="INCIDENTE=this.value; Generar_Todo(MUNICIPIO,COLONIA,INCIDENTE)">
                 <datalist id="Inds" style="width: 18vw;">
                 
                 </datalist>
@@ -243,6 +243,7 @@
         MUNICIPIO="Pachuca De Soto";
         COLONIA="Centro (Colonia)";
         INCIDENTE="Otras Alarmas De Emergencias Activadas (Seguridad)";
+        let geometria_seleccionada = null; 
 
         //Slidebar 
         function toggleSidebar() {
@@ -343,7 +344,15 @@
                                         "<h4  style='text-align: center; font-size: medium;'>Llamadas totales: "+
                                         feature.properties.Recuento +
                                         "</h4>");
+                        layer.bindTooltip(feature.properties.Colonia);
                     }
+                    layer.on('click', function () {
+                        geometria_seleccionada = feature.properties.Colonia;
+                        console.log("Geometría seleccionada:", geometria_seleccionada);
+                        COLONIA = geometria_seleccionada;
+                        Rellenar_Incidente(MUNICIPIO, COLONIA); 
+                        geometria_seleccionada = null; 
+                    });
                 }
             });
             Mapa_Act.addTo(mapa);
@@ -378,6 +387,7 @@
                 .sort((a, b) => b.valor - a.valor) //Orden descendente
                 .slice(0, 10); //solo tomemos los 10 primeros
 
+            //console.log("Vamos imprimir el top10Datos:", top10Datos);
             const ctx = document.getElementById('miTreemap').getContext('2d');
             if(chart){
                 chart.destroy();
@@ -386,7 +396,7 @@
                 type: 'treemap',
                 data: {
                     datasets: [{
-                        label: 'Incidentes en'+C,
+                        label: 'Incidentes en'+ C,
                         tree: top10Datos, 
                         key: 'valor',
                         groups: ['categoria'],
@@ -400,7 +410,9 @@
                                 return [`${data.categoria}`, `Total: ${data.valor}`];
                             },
                             font: { size: 12, weight: 'bold' },
-                            color: 'white'
+                            color: 'white',
+                            overflow: 'fit',
+                            display: true,
                         },
                         backgroundColor: (ctx) => {
                             const colors = ['#4A0E4E', '#483D8B', '#3B5998', '#20B2AA', '#32CD32'];
@@ -415,13 +427,18 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: (item) => ` Valor: ${item.raw.v}`
+                                title(items) {
+                                    const item = items[0].raw._data;
+                                    return item.categoria;
+                                },
+                                label: (item) => `Cantidad de llamadas: ${item.raw.v}`,
                             }
                         },
                         title: {
                             text: "Top de incidentes en "+C+", "+M,
-                             display: true
-                        }
+                            display: true,
+                            padding: { top: 0, bottom: 0 },
+                        },
                     },
                     maintainAspectRatio: false
                 }
@@ -494,7 +511,13 @@
                     plugins: {
                         title: {
                             text: "Cantidad de llamadas por mes y año en "+C+", "+M,
+                            padding: { top: 0, bottom: 0 },
                             display: true
+                        },
+                        subtitle: {
+                            text: I,
+                            display: true,
+                            padding: { top: 0, bottom: 0 },
                         }
                     },
                     scales: {
@@ -584,7 +607,13 @@
                         legend :{ display: false},
                         title: {
                             text: "Cantidad de llamadas por hora y día en "+C+", "+M,
-                             display: true
+                             display: true,
+                             padding: { top: 0, bottom: 0 }
+                        },
+                        subtitle: {
+                            text: I,
+                            display: true,
+                            padding: { top: 0, bottom: 0 },
                         }
                     },
                     scales: {
@@ -733,11 +762,14 @@
 
                 //Incidente
                 function Rellenar_Incidente(M,C){//M nos dirá el municipio que se ha escogido
+                    
                     //y C la colonia elegida
                     COLONIA=C;
                     console.log(C);
-                    const datalist = document.getElementById('Inds');
 
+                    let incidente_anterior = INCIDENTE;
+
+                    const datalist = document.getElementById('Inds');
                     //Limpiamos
                     datalist.innerHTML = '';
 
@@ -752,11 +784,17 @@
                         datalist.appendChild(option);
                     });
 
-                    document.getElementById("selector_incidente").value="";
-                    document.getElementById("selector_incidente").value=lista[0];
+                    if (lista.includes(incidente_anterior)) {
+                        INCIDENTE = incidente_anterior;
+                    } else {
+                        INCIDENTE = lista[0];
+                    }
+
+                    console.log("Incidente seleccionado:", INCIDENTE);
+        
+                    document.getElementById("selector_incidente").value=INCIDENTE;
                     
-                    primer_incidente=lista[0];
-                    Generar_Todo(M,C,primer_incidente)
+                    Generar_Todo(M,C,INCIDENTE)
                 }
                 
                 //Para que se reincie la cajita del buscador
