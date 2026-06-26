@@ -388,16 +388,69 @@ function Generar_Todo(M,C,I){
 
 
 
-        //Leemos el resumen para el histórico
+
+         //Leemos el resumen para el histórico
         let AñoXMes = [];
         let DiaXHora = [];
         
-        const tePrometoLeerExcel  = cargarExcel('outputs/llamadas9112025/Histórico_AñoXMes_new.xlsx', AñoXMes);
-        const tePrometoLeerExcel2 = cargarExcel('outputs/llamadas9112025/Tabla_DiaXHora_new.xlsx', DiaXHora);
+        tePrometoLeerExcel = new Promise((resolve, reject) => {
+            fetch("outputs/llamadas9112025/Histórico_AñoXMes_new.xlsx") // Debe estar accesible públicamente (Qué se supone que significa eso?)
+            .then((response) => {
+                if (!response.ok) {
+                throw new Error("No se pudo cargar el archivo Excel");
+                }
+                return response.arrayBuffer();
+            })
+            .then((data) => {
+                try {
+                const workbook = XLSX.read(data, { type: "array" });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                AñoXMes = XLSX.utils.sheet_to_json(worksheet, {
+                    header: 1,
+                });
+                } catch (error) {
+                console.error("Error al procesar el Excel:", error);
+                }
+                resolve();
+            })
+            .catch((err) =>
+                console.error("Error al cargar el archivo:", err),
+            );
+        });
 
-        Promise.all([tePrometoLeerExcel,tePrometoLeerExcel2]).then(()=>{
+        tePrometoLeerExcel2 = new Promise((resolve, reject) => {
+            fetch("outputs/llamadas9112025/Tabla_DiaXHora_new.xlsx") // Debe estar accesible públicamente (Qué se supone que significa eso?)
+            .then((response) => {
+                if (!response.ok) {
+                throw new Error("No se pudo cargar el archivo Excel");
+                }
+                return response.arrayBuffer();
+            })
+            .then((data) => {
+                try {
+                const workbook = XLSX.read(data, { type: "array" });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                DiaXHora = XLSX.utils.sheet_to_json(worksheet, {
+                    header: 1,
+                });
+                } catch (error) {
+                console.error("Error al procesar el Excel:", error);
+                }
+                resolve();
+            })
+            .catch((err) =>
+                console.error("Error al cargar el archivo:", err),
+            );
+        });
+
+        Promise.all([tePrometoLeerExcel, tePrometoLeerExcel2]).then(
+            () => {
             Rellenar_Mpio();
-        })
+            },
+        );
+
 
 
         //Municipio
