@@ -22,6 +22,7 @@ COLONIA="Centro (Colonia)";
 INCIDENTE="Otras Alarmas De Emergencias Activadas (Seguridad)";
 let geometria_seleccionada = null; 
 let incidente_seleccionado = null;
+let coordenadas_seleccionadas = null;
 
 var mapa = L.map('map').setView([20.1, -98.7], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -72,8 +73,13 @@ function Generar_Todo(M,C,I){
         
         onEachFeature: function (feature, layer) {
             layer.on('click', function () {
-                geometria_seleccionada = feature.properties.Colonia;
+                geometria_seleccionada = feature;
+                coordenadas_seleccionadas = geometria_seleccionada.geometry.coordinates;
+                geometria_seleccionada = geometria_seleccionada.properties.Colonia;
+
                 console.log("Geometría seleccionada:", geometria_seleccionada);
+                //console.log("Coordenadas seleccionadas:", coordenadas_seleccionadas);
+
                 COLONIA = geometria_seleccionada;
                 Rellenar_Incidente(MUNICIPIO, COLONIA); 
                 geometria_seleccionada = null; 
@@ -100,8 +106,15 @@ function Generar_Todo(M,C,I){
         )
     };
     
-    mapa.setView([colonia_act.features[0].geometry.coordinates[1],
-                    colonia_act.features[0].geometry.coordinates[0]], 14);
+    const coords = colonia_act.features[0].geometry.coordinates;
+
+    mapa.setView([coords[1], coords[0]], 14);
+
+    Mapa_Act.eachLayer(function (layer) {
+        if (layer.feature.properties.Colonia === C) {
+            layer.openPopup();
+        }
+    });
 
 
 
