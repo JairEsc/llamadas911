@@ -18,6 +18,8 @@
 
     <link rel="stylesheet" href="codigos/styles.css"> <!-- Mis estilos -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">          <!-- Letra Monserrat -->
+    <link rel="stylesheet" href="codigos/intro.css" />
+
 </head>
 
 <body>
@@ -32,7 +34,7 @@
     </header>
 
     <main>
-        <nav class="sidebar collapsed d-flex flex-column flex-shrink-0 position-fixed">
+        <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed">
             Municipio:
             <input type="text" id="selector_municipio" list="Mpios" placeholder="" style="width: 18vw;"
                 onchange="Rellenar_Colonia(this.value)">
@@ -47,6 +49,10 @@
             <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
                 onchange="INCIDENTE=this.value; Generar_Todo(MUNICIPIO,COLONIA,INCIDENTE)">
             <datalist id="Inds" style="width: 18vw;"></datalist>
+
+            <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 
+                <img src="assets/patch-question.svg" fill="white" alt="Bootstrap" width="32" height="32">
+</button>
         </nav>
 
 
@@ -77,6 +83,53 @@
     <script src="codigos/JS/funciones_extras.js"></script>
     <script src="codigos/JS/Cargar_Resumen.js"></script>
     <script src="codigos/JS/logica.js"></script>
+    <script>
+        function startDashboardTour() {
+            const tour = introJs();
+            tour.setOptions({
+                steps: [
+                    {
+                        element: document.querySelector('#selector_municipio'),
+                        intro: 'Puedes seleccionar por Municipio, Colonia y Tipo de delito.',
+                        position: 'right',
+                        tooltipClass: 'custom-tooltip',
+                        highlightClass: 'custom-highlight'
+                    },
+                    {
+                        element: document.querySelector('#map'),
+                        intro: 'Las colonias se muestran con círculos de radio proporcional al número de llamadas.',
+                        position: 'left'
+                    },
+                    {
+                        element: document.querySelector('#miTreemap'),
+                        intro: 'Para cada colonia, estos son sus principales llamadas por delitos.',
+                        position: 'left'
+                    },
+                    {
+                        element: document.querySelector('#miBarras'),
+                        intro: 'A lo largo del año, estas han sido las frecuencias de las llamadas por día.',
+                        position: 'left'
+                    },
+                    {
+                        element: document.querySelector('#heatmap'),
+                        intro: 'En una semana normal, estas son las frecuencias de las llamadas por hora.',
+                        position: 'top'
+                    }
+                ],
+                showBullets: true,
+                showProgress: true,
+                showStepNumbers: true,
+                exitOnEsc: true,
+                exitOnOverlayClick: true,
+                nextLabel: 'Siguiente',
+                prevLabel: 'Anterior',
+                skipLabel: '×',
+                doneLabel: 'Entendido'
+            });
+            tour.start();
+        }
+    </script>
+            <script src="codigos/JS/intro.js"></script>
 
 </body>
 </html>
