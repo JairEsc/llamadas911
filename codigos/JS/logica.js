@@ -286,7 +286,10 @@ function Generar_Todo(M,C,I){
                 x: {
                     type: 'category', 
                     title: { display: true, text: 'Mes y Año' } },
-                y: { title: { display: true, text: 'Cantidad de Llamadas' } }
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Cantidad de Llamadas' }
+                }
             }
         }
     });
