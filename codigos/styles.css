@@ -108,7 +108,7 @@ main {
     transition: margin-left 0.3s, width 0.3s;
     display: grid;
     /* Crea 2 columnas de igual tamaño */
-    grid-template-columns: 0.8fr 1.2fr; 
+    grid-template-columns: 2fr 1fr; 
     /* Crea 2 filas de igual tamaño (puedes usar vh para que ocupe toda la pantalla) */
     grid-template-rows: 50vh 50vh; 
     gap: 5px;

@@ -45,7 +45,7 @@ function Generar_Todo(M,C,I){
         type: "FeatureCollection",
         features: INFO.features.filter(feature => 
             feature.properties.Municipio === M &&
-            feature.properties.Incidente === I
+            feature.properties.Incidente === I 
         )
     };
 
@@ -270,6 +270,8 @@ function Generar_Todo(M,C,I){
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     text: "Cantidad de llamadas por mes y año en "+C+", "+M,
@@ -355,6 +357,7 @@ function Generar_Todo(M,C,I){
         options: {
             responsive: true,
             animation: false,
+            maintainAspectRatio: false,
             plugins: {
                 tooltip: {
                     callbacks: {
