@@ -42,14 +42,14 @@
 
             Colonia:
             <input type="text" id="selector_colonia" list="Cols" placeholder="" style="width: 18vw;"
-                onchange="Rellenar_Incidente(MUNICIPIO,this.value)">
+                onchange="Rellenar_Incidente(estado.municipio,this.value)">
             <datalist id="Cols" style="width: 18vw;"></datalist>
 
             
 
             Incidente:
             <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
-                onchange="INCIDENTE=this.value; Generar_Todo(MUNICIPIO,COLONIA,INCIDENTE)">
+                onchange="estado.incidente=this.value; Generar_Todo(estado.municipio,estado.colonia,estado.incidente)">
             <datalist id="Inds" style="width: 18vw;"></datalist>
 
             <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 

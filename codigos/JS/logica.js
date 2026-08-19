@@ -2,14 +2,14 @@ let chart;
 let Hist;
 let Heat;
 
-//Necesitamos estas variables globales que serán las que nos dirá
+//Necesitamos esta variable global que será la que nos dirá
 //que selección tenemos para cada filtro actualmente
 
-let seleccion = {
+let estado = {
     municipio: "Pachuca De Soto",
     colonia: "Centro (Colonia)",
     incidente: "Otras Alarmas De Emergencias Activadas (Seguridad)"
-}
+};
 
 let seleccion_ids = {
     municipio: "selector_municipio",
@@ -17,9 +17,6 @@ let seleccion_ids = {
     incidente: "selector_incidente"
 }
 
-MUNICIPIO="Pachuca De Soto";
-COLONIA="Centro (Colonia)";
-INCIDENTE="Otras Alarmas De Emergencias Activadas (Seguridad)";
 let geometria_seleccionada = null; 
 let incidente_seleccionado = null;
 let coordenadas_seleccionadas = null;
@@ -80,8 +77,8 @@ function Generar_Todo(M,C,I){
                 console.log("Geometría seleccionada:", geometria_seleccionada);
                 //console.log("Coordenadas seleccionadas:", coordenadas_seleccionadas);
 
-                COLONIA = geometria_seleccionada;
-                Rellenar_Incidente(MUNICIPIO, COLONIA); 
+                estado.colonia = geometria_seleccionada;
+                Rellenar_Incidente(estado.municipio, estado.colonia); 
                 geometria_seleccionada = null; 
             });
             if (feature.properties && feature.properties.Recuento) {
@@ -176,11 +173,11 @@ function Generar_Todo(M,C,I){
                     const elemento = elements[0];
                     const index = elemento.index;
                     const data = chart.data.datasets[0].data[index];
-                    INCIDENTE= data.g;
+                    estado.incidente = data.g;
 
-                    console.log("Incidente seleccionado:", INCIDENTE);
-                    document.getElementById("selector_incidente").value=INCIDENTE;
-                    Generar_Todo(MUNICIPIO, COLONIA, INCIDENTE);
+                    console.log("Incidente seleccionado:", estado.incidente);
+                    document.getElementById("selector_incidente").value=estado.incidente;
+                    Generar_Todo(estado.municipio, estado.colonia, estado.incidente);
                 }
             },
             plugins: {
@@ -500,7 +497,7 @@ function Generar_Todo(M,C,I){
 
         //Colonia
         function Rellenar_Colonia(M){//M nos dirá el municipio que se ha escogido
-            MUNICIPIO=M;
+            estado.municipio=M;
             console.log(M);
             const datalist = document.getElementById('Cols');
 
@@ -528,10 +525,10 @@ function Generar_Todo(M,C,I){
         function Rellenar_Incidente(M,C){//M nos dirá el municipio que se ha escogido
             
             //y C la colonia elegida
-            COLONIA=C;
+            estado.colonia=C;
             console.log(C);
 
-            let incidente_anterior = INCIDENTE;
+            let incidente_anterior = estado.incidente;
 
             const datalist = document.getElementById('Inds');
             //Limpiamos
@@ -549,16 +546,16 @@ function Generar_Todo(M,C,I){
             });
 
             if (lista.includes(incidente_anterior)) {
-                INCIDENTE = incidente_anterior;
+                estado.incidente = incidente_anterior;
             } else {
-                INCIDENTE = lista[0];
+                estado.incidente = lista[0];
             }
 
-            console.log("Incidente seleccionado:", INCIDENTE);
+            console.log("Incidente seleccionado:", estado.incidente);
 
-            document.getElementById("selector_incidente").value=INCIDENTE;
+            document.getElementById("selector_incidente").value=estado.incidente;
             
-            Generar_Todo(M,C,INCIDENTE)
+            Generar_Todo(M,C,estado.incidente)
         }
         
         //Para que se reincie la cajita del buscador
