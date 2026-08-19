@@ -206,9 +206,9 @@ function Generar_Todo(M,C,I){
 
     //HISTÓRICO
     //Filtramos por colonia, municipio e incidente
-    let H_filtrado=AñoXMes.filter(v => v[0] === C && v[1] === M && v[2] === I);
-    let Valor_Recuento=H_filtrado.map(fila => fila[4]);
-    let Fechas=H_filtrado.map(fila => fila[3]);
+    let H_filtrado=AñoXMes.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    let Valor_Recuento=H_filtrado.map(row => row.Recuento);
+    let Fechas=H_filtrado.map(row => row.Fecha);
 
         //Combinar
     let combinado = Fechas.map((fecha, i) => ({
@@ -298,11 +298,11 @@ function Generar_Todo(M,C,I){
     console.log(C)
     console.log(M)
     console.log(I)
-    let D_filtrado = DiaXHora.filter(v => v[0] === C && v[1] === M && v[2] === I);
-    console.log(D_filtrado) //Por alguna razón no hace nada
-    let Dias = D_filtrado.map(fila => fila[3]);
-    let Horas = D_filtrado.map(fila => fila[4]);
-    let Cuantos = D_filtrado.map(fila => fila[5]);
+    let D_filtrado = DiaXHora.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    console.log(D_filtrado)
+    let Dias = D_filtrado.map(row => row.Dia_Semana);
+    let Horas = D_filtrado.map(row => row.Hora);
+    let Cuantos = D_filtrado.map(row => row.Recuento);
 
     // Combinar
     let juntos = Horas.map((hora, i) => ({
@@ -408,6 +408,30 @@ function Generar_Todo(M,C,I){
          //Leemos el resumen para el histórico
         let AñoXMes = [];
         let DiaXHora = [];
+
+        //Esquema esperado de cada archivo. Si el pipeline en R llega a
+        //renombrar, eliminar o reordenar columnas, validarColumnas() lo
+        //reporta con un mensaje claro en vez de dejar que el dashboard
+        //muestre datos de la columna equivocada sin ningún aviso.
+        const COLUMNAS_ANIO_MES = ["Colonia", "Municipio", "Incidente", "Fecha", "Recuento"];
+        const COLUMNAS_DIA_HORA = ["Colonia", "Municipio", "Incidente", "Dia_Semana", "Hora", "Recuento"];
+
+        function validarColumnas(datos, columnasEsperadas, nombreArchivo) {
+            if (datos.length === 0) {
+                console.error(`${nombreArchivo}: el archivo llegó vacío.`);
+                return false;
+            }
+            const columnasReales = Object.keys(datos[0]);
+            const faltantes = columnasEsperadas.filter(c => !columnasReales.includes(c));
+            if (faltantes.length > 0) {
+                console.error(
+                    `${nombreArchivo}: faltan columnas esperadas: ${faltantes.join(", ")}. ` +
+                    `Columnas encontradas: ${columnasReales.join(", ")}.`
+                );
+                return false;
+            }
+            return true;
+        }
         
         tePrometoLeerExcel = new Promise((resolve, reject) => {
             fetch("outputs/llamadas9112025/Histórico_AñoXMes_new.xlsx") // Debe estar accesible públicamente (Qué se supone que significa eso?)
@@ -422,9 +446,12 @@ function Generar_Todo(M,C,I){
                 const workbook = XLSX.read(data, { type: "array" });
                 const firstSheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[firstSheetName];
-                AñoXMes = XLSX.utils.sheet_to_json(worksheet, {
-                    header: 1,
-                });
+                //Sin {header:1}: SheetJS usa la primera fila como nombres
+                //de propiedad, así cada fila llega como un objeto
+                //{Colonia, Municipio, Incidente, Fecha, Recuento} en vez
+                //de un array posicional [v0, v1, v2, v3, v4].
+                AñoXMes = XLSX.utils.sheet_to_json(worksheet, { defval: null });
+                validarColumnas(AñoXMes, COLUMNAS_ANIO_MES, "Histórico_AñoXMes_new.xlsx");
                 } catch (error) {
                 console.error("Error al procesar el Excel:", error);
                 }
@@ -448,9 +475,8 @@ function Generar_Todo(M,C,I){
                 const workbook = XLSX.read(data, { type: "array" });
                 const firstSheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[firstSheetName];
-                DiaXHora = XLSX.utils.sheet_to_json(worksheet, {
-                    header: 1,
-                });
+                DiaXHora = XLSX.utils.sheet_to_json(worksheet, { defval: null });
+                validarColumnas(DiaXHora, COLUMNAS_DIA_HORA, "Tabla_DiaXHora_new.xlsx");
                 } catch (error) {
                 console.error("Error al procesar el Excel:", error);
                 }
@@ -476,7 +502,9 @@ function Generar_Todo(M,C,I){
             //Limpiamos
             datalist.innerHTML = '';
 
-            let lista = [...new Set(AñoXMes.map(fila => fila[1]))].filter(num => num !== "Municipio");
+            //Con objetos ya no llega una fila de encabezado mezclada con
+            //los datos, así que no hace falta filtrarla como antes.
+            let lista = [...new Set(AñoXMes.map(row => row.Municipio))];
             //console.log("Lista limpia municipio:", lista);        
 
             //Vamos metiendolos
@@ -504,8 +532,8 @@ function Generar_Todo(M,C,I){
             //Limpiamos
             datalist.innerHTML = '';
 
-            let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
-            let lista = [...new Set(filtrado_M.map(fila => fila[0]))].filter(num => num !== "Colonia"); //Esto hace lo mismo pero con un set, además de eliminar el título de la columna
+            let filtrado_M=AñoXMes.filter(row => row.Municipio === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
+            let lista = [...new Set(filtrado_M.map(row => row.Colonia))]; //Esto hace lo mismo pero con un set
 
             //Vamos metiendolos
             lista.forEach(item => {
@@ -534,9 +562,9 @@ function Generar_Todo(M,C,I){
             //Limpiamos
             datalist.innerHTML = '';
 
-            let filtrado_M=AñoXMes.filter(v => v[1] === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
-            let filtrado_M2=filtrado_M.filter(v => v[0] === C);
-            let lista = [...new Set(filtrado_M2.map(fila => fila[2]))].filter(num => num !== "Incidente"); //Esto hace lo mismo pero con un set, además de eliminar el título de la columna
+            let filtrado_M=AñoXMes.filter(row => row.Municipio === M); //Lo hago con AñoXMes pero se puede hacer con cualquera de los dos xlsx
+            let filtrado_M2=filtrado_M.filter(row => row.Colonia === C);
+            let lista = [...new Set(filtrado_M2.map(row => row.Incidente))]; //Esto hace lo mismo pero con un set
 
             //Vamos metiendolos
             lista.forEach(item => {

@@ -7,6 +7,11 @@ interes = c("Accidentes de tránsito", "Alarmas y objetos sospechosos", "Alcohol
             "Sustancias peligrosas y materiales químicos", "Violencia de genero y grupos vulnerables", "Delitos en materia de Hidrocarburo", "Delitos sexuales", "Delitos electorales")
 
 
+interes = c("Alcohol y drogas", "Alteración del orden público", "Amenazas, extorsión y conductas sospechosas",               
+            "Armas, explosivos y pirotecnia", "Daños a bienes y propiedad", 
+            "Personas no localizadas y libertad personal", "Robo y delitos patrimoniales", 
+             "Violencia de genero y grupos vulnerables", "Delitos en materia de Hidrocarburo", "Delitos sexuales")
+
 interes = paste(interes, "mil habitantes")
 
 
@@ -29,6 +34,39 @@ grafico = datos |>
     Categorias = Categorias |>  gsub(pattern = "mil habitantes", replacement = "") |>  stringr::str_squish(),
   )
 
+
+grafico = grafico |> 
+  dplyr::arrange(Categorias |>  dplyr::desc())
+
+
+a = c("Alteración del orden público", "Robo y delitos patrimoniales" ,
+      "Amenazas, extorsión y conductas sospechosas",
+      "Alcohol y drogas", "Violencia de genero y grupos vulnerables",
+      "Daños a bienes y propiedad",
+      "Armas, explosivos y pirotecnia", 
+      "Personas no localizadas y libertad personal", 
+      "Delitos sexuales",
+      "Delitos en materia de Hidrocarburo")
+
+
+orden = grafico |> 
+  dplyr::group_by(Municipio) |> 
+  dplyr::summarise(Valor = Valor |>  sum(na.rm = T)) |> 
+  dplyr::ungroup() |> 
+  dplyr::arrange(Valor |>  dplyr::desc())
+
+
+grafico = grafico |> 
+  dplyr::mutate(
+    Municipio = Municipio |>  factor(levels = orden$Municipio),
+    Categorias = Categorias |>  factor(levels = a)
+  )
+
+grafico$Categorias |>  unique()
+
+orden$Municipio
+
+grafico$Categorias |>  levels()
 
 library(ggplot2)
 library(dplyr)

@@ -7,6 +7,12 @@ interes = c("Accidentes de tránsito", "Alarmas y objetos sospechosos", "Alcohol
             "Sustancias peligrosas y materiales químicos", "Violencia de genero y grupos vulnerables", "Delitos en materia de Hidrocarburo", "Delitos sexuales", "Delitos electorales")
 
 
+interes = c("Alcohol y drogas", "Alteración del orden público", "Amenazas, extorsión y conductas sospechosas",               
+            "Armas, explosivos y pirotecnia", "Daños a bienes y propiedad", 
+            "Personas no localizadas y libertad personal", "Robo y delitos patrimoniales", 
+            "Violencia de genero y grupos vulnerables", "Delitos en materia de Hidrocarburo", "Delitos sexuales")
+
+
 datos = datos |> 
   dplyr::select(Municipio, dplyr::any_of(interes))
 
