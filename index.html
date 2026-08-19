@@ -49,7 +49,7 @@
 
             Incidente:
             <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
-                onchange="estado.incidente=this.value; Generar_Todo(estado.municipio,estado.colonia,estado.incidente)">
+                onchange="estado.incidente=this.value; notificarCambio()">
             <datalist id="Inds" style="width: 18vw;"></datalist>
 
             <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 
@@ -82,8 +82,13 @@
 
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="codigos/JS/state.js"></script>
     <script src="codigos/JS/funciones_extras.js"></script>
     <script src="codigos/JS/Cargar_Resumen.js"></script>
+    <script src="codigos/JS/charts/mapaChart.js"></script>
+    <script src="codigos/JS/charts/treemapChart.js"></script>
+    <script src="codigos/JS/charts/serieTemporalChart.js"></script>
+    <script src="codigos/JS/charts/heatmapChart.js"></script>
     <script src="codigos/JS/logica.js"></script>
     <script>
         function startDashboardTour() {
