@@ -210,6 +210,14 @@ function Rellenar_Clasificacion(M, C) {
 // en la lista filtrada (cada Incidente pertenece a una sola
 // Clasificación) y el campo se "limpia" solo, cayendo al primero de la
 // nueva lista.
+//
+// Además de los Incidentes reales de esa Clasificación, se agrega al
+// final la opción especial TODOS_INCIDENTES ("Todas"): al elegirla, las
+// gráficas (ver charts/*.js) agregan (suman Recuento, promedian X/Y)
+// todos los Incidentes de la Clasificación seleccionada para este
+// Municipio + Colonia, en vez de mostrar uno solo. Se agrega al final,
+// no al inicio, para no cambiar el Incidente que queda seleccionado por
+// defecto (se conserva el comportamiento actual).
 function Rellenar_Incidente(M, C, Cl) {
     estado.clasificacion = Cl;
 
@@ -221,7 +229,8 @@ function Rellenar_Incidente(M, C, Cl) {
     let filtrado_M = AñoXMes.filter(row => row.Municipio === M);
     let filtrado_MC = filtrado_M.filter(row => row.Colonia === C);
     let filtrado_MCCl = filtrado_MC.filter(row => INCIDENTE_A_CLASIFICACION[row.Incidente] === Cl);
-    let lista = [...new Set(filtrado_MCCl.map(row => row.Incidente))];
+    let incidentesReales = [...new Set(filtrado_MCCl.map(row => row.Incidente))];
+    let lista = [...incidentesReales, TODOS_INCIDENTES];
 
     lista.forEach(item => {
         const option = document.createElement('option');

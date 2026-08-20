@@ -9,7 +9,21 @@ function renderHeatmap(M, C, I, Cl, Mc) {
         return;
     }
 
-    let D_filtrado = DiaXHora.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    // Cuando I es TODOS_INCIDENTES ("Todas"), agregamos (sum Recuento)
+    // todos los Incidentes de la Clasificación Cl para esta Colonia +
+    // Municipio, agrupando por Día de la semana + Hora (ver
+    // agregarPorClasificacion en funciones_extras.js).
+    let D_filtrado;
+    if (I === TODOS_INCIDENTES) {
+        const filas = DiaXHora.filter(row =>
+            row.Colonia === C &&
+            row.Municipio === M &&
+            INCIDENTE_A_CLASIFICACION[row.Incidente] === Cl
+        );
+        D_filtrado = agregarPorClasificacion(filas, ["Colonia", "Municipio", "Dia_Semana", "Hora"]);
+    } else {
+        D_filtrado = DiaXHora.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    }
     let Dias = D_filtrado.map(row => row.Dia_Semana);
     let Horas = D_filtrado.map(row => row.Hora);
     let Cuantos = D_filtrado.map(row => row.Recuento);

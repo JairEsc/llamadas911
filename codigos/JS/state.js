@@ -24,6 +24,16 @@
 // gráfica en codigos/JS/charts/).
 const TODOS_MUNICIPIOS = "Todos los municipios";
 
+// Valor especial del selector de Incidente: agrega, para el
+// Municipio + Colonia + Clasificación seleccionados, todos los
+// Incidentes que pertenecen a esa Clasificación (ver
+// agregarPorClasificacion() en funciones_extras.js y su uso en
+// logica.js/charts/*.js). A diferencia de TODOS_MUNICIPIOS, este valor
+// no cambia la cascada de filtros: Municipio/Colonia/Clasificación
+// siguen aplicando igual, solo Incidente pasa a representar la suma de
+// todos los incidentes de esa Clasificación.
+const TODOS_INCIDENTES = "Todas";
+
 let estado = {
     municipio: "Pachuca de Soto",
     colonia: "Centro (Colonia)",

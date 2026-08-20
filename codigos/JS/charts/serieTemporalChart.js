@@ -10,7 +10,21 @@ function renderSerieTemporal(M, C, I, Cl, Mc) {
         return;
     }
 
-    let H_filtrado = AñoXMes.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    // Cuando I es TODOS_INCIDENTES ("Todas"), agregamos (sum Recuento)
+    // todos los Incidentes de la Clasificación Cl para esta Colonia +
+    // Municipio, agrupando por Fecha (ver agregarPorClasificacion en
+    // funciones_extras.js).
+    let H_filtrado;
+    if (I === TODOS_INCIDENTES) {
+        const filas = AñoXMes.filter(row =>
+            row.Colonia === C &&
+            row.Municipio === M &&
+            INCIDENTE_A_CLASIFICACION[row.Incidente] === Cl
+        );
+        H_filtrado = agregarPorClasificacion(filas, ["Colonia", "Municipio", "Fecha"]);
+    } else {
+        H_filtrado = AñoXMes.filter(row => row.Colonia === C && row.Municipio === M && row.Incidente === I);
+    }
     let Valor_Recuento = H_filtrado.map(row => row.Recuento);
     let Fechas = H_filtrado.map(row => row.Fecha);
 

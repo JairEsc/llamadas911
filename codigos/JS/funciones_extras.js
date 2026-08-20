@@ -57,6 +57,71 @@ function validarColumnas(datos, columnasEsperadas, nombreArchivo) {
 }
 
 // ---------------------------------------------------------------
+// Utilidad para la opción "Todas" del filtro de Incidente (agrega, para
+// una Clasificación, todos sus Incidentes). Equivalente en R:
+//
+//   datos |>
+//     dplyr::group_by(<columnasAgrupar>) |>
+//     dplyr::summarise(
+//       Recuento = sum(Recuento, na.rm = TRUE),
+//       X = mean(X),   # solo si incluirCoordenadas = TRUE
+//       Y = mean(Y)
+//     ) |>
+//     dplyr::ungroup()
+//
+// Recibe un arreglo plano de filas (objetos con, al menos, las
+// columnas en columnasAgrupar + Recuento, y X/Y si incluirCoordenadas
+// es true) y regresa un arreglo con una fila por combinación única de
+// columnasAgrupar, con Recuento sumado (ignorando null/undefined/NaN,
+// como sum(..., na.rm = TRUE)) y, opcionalmente, X/Y promediados para
+// conservar las coordenadas que necesitan los mapas.
+function agregarPorClasificacion(filas, columnasAgrupar, incluirCoordenadas = false) {
+    const grupos = new Map();
+
+    filas.forEach(fila => {
+        const clave = columnasAgrupar.map(col => fila[col]).join("|||");
+
+        if (!grupos.has(clave)) {
+            const base = {};
+            columnasAgrupar.forEach(col => base[col] = fila[col]);
+            base.Recuento = 0;
+            if (incluirCoordenadas) {
+                base._sumaX = 0;
+                base._sumaY = 0;
+                base._n = 0;
+            }
+            grupos.set(clave, base);
+        }
+
+        const grupo = grupos.get(clave);
+
+        // sum(Recuento, na.rm = TRUE): los valores faltantes no suman,
+        // pero tampoco invalidan el resto de la suma.
+        const recuento = Number(fila.Recuento);
+        if (!isNaN(recuento)) {
+            grupo.Recuento += recuento;
+        }
+
+        if (incluirCoordenadas) {
+            grupo._sumaX += fila.X;
+            grupo._sumaY += fila.Y;
+            grupo._n += 1;
+        }
+    });
+
+    return Array.from(grupos.values()).map(grupo => {
+        if (incluirCoordenadas) {
+            grupo.X = grupo._n > 0 ? grupo._sumaX / grupo._n : null;
+            grupo.Y = grupo._n > 0 ? grupo._sumaY / grupo._n : null;
+            delete grupo._sumaX;
+            delete grupo._sumaY;
+            delete grupo._n;
+        }
+        return grupo;
+    });
+}
+
+// ---------------------------------------------------------------
 // Utilidades para la vista "Todos los municipios" (mapa coroplético,
 // serieTemporalChart, heatmapChart y treemapChart agregados).
 // ---------------------------------------------------------------

@@ -25,12 +25,50 @@ function renderMapa(M, C, I, Cl) {
 
     // El mapa no depende de la colonia de interés C, solo se filtra
     // por el municipio M y el incidente I.
-    const filtrado = {
-        type: "FeatureCollection",
-        features: INFO.features.filter(feature =>
+    //
+    // Cuando I es TODOS_INCIDENTES ("Todas"), en vez de un Incidente
+    // puntual agregamos (sum Recuento, mean X/Y) todos los Incidentes
+    // que pertenecen a la Clasificación Cl, por Municipio + Colonia
+    // (ver agregarPorClasificacion en funciones_extras.js), y armamos
+    // features con la misma forma que INFO.features para reutilizar el
+    // resto del renderizado sin cambios.
+    let featuresFiltradas;
+    if (I === TODOS_INCIDENTES) {
+        const filas = INFO.features
+            .filter(feature =>
+                feature.properties.Municipio === M &&
+                INCIDENTE_A_CLASIFICACION[feature.properties.Incidente] === Cl
+            )
+            .map(feature => ({
+                Municipio: feature.properties.Municipio,
+                Colonia: feature.properties.Colonia,
+                Recuento: feature.properties.Recuento,
+                X: feature.geometry.coordinates[0],
+                Y: feature.geometry.coordinates[1]
+            }));
+
+        const agregadas = agregarPorClasificacion(filas, ["Municipio", "Colonia"], true);
+
+        featuresFiltradas = agregadas.map(fila => ({
+            type: "Feature",
+            properties: {
+                Municipio: fila.Municipio,
+                Colonia: fila.Colonia,
+                Incidente: TODOS_INCIDENTES,
+                Recuento: fila.Recuento
+            },
+            geometry: { type: "Point", coordinates: [fila.X, fila.Y] }
+        }));
+    } else {
+        featuresFiltradas = INFO.features.filter(feature =>
             feature.properties.Municipio === M &&
             feature.properties.Incidente === I
-        )
+        );
+    }
+
+    const filtrado = {
+        type: "FeatureCollection",
+        features: featuresFiltradas
     };
 
     const valores = filtrado.features.map(f => f.properties.Recuento);
