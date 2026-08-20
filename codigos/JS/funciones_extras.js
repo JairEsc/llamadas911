@@ -39,21 +39,19 @@ function Radio(v) {
   return 15;
 }
 
-// Carga de excel
-// Pendiente, todavia no funciona del todo
-function leerExcel(ruta) {
-  return fetch(ruta)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`No se pudo cargar el archivo: ${ruta}`);
-      }
-      return response.arrayBuffer();
-    })
-    .then((data) => {
-      const workbook = XLSX.read(data, { type: "array" });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-
-      return XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    });
+function validarColumnas(datos, columnasEsperadas, nombreArchivo) {
+    if (datos.length === 0) {
+        console.error(`${nombreArchivo}: el archivo llegó vacío.`);
+        return false;
+    }
+    const columnasReales = Object.keys(datos[0]);
+    const faltantes = columnasEsperadas.filter(c => !columnasReales.includes(c));
+    if (faltantes.length > 0) {
+        console.error(
+            `${nombreArchivo}: faltan columnas esperadas: ${faltantes.join(", ")}. ` +
+            `Columnas encontradas: ${columnasReales.join(", ")}.`
+        );
+        return false;
+    }
+    return true;
 }

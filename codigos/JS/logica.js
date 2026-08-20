@@ -15,22 +15,6 @@ let DiaXHora = [];
 const COLUMNAS_ANIO_MES = ["Colonia", "Municipio", "Incidente", "Fecha", "Recuento"];
 const COLUMNAS_DIA_HORA = ["Colonia", "Municipio", "Incidente", "Dia_Semana", "Hora", "Recuento"];
 
-function validarColumnas(datos, columnasEsperadas, nombreArchivo) {
-    if (datos.length === 0) {
-        console.error(`${nombreArchivo}: el archivo llegó vacío.`);
-        return false;
-    }
-    const columnasReales = Object.keys(datos[0]);
-    const faltantes = columnasEsperadas.filter(c => !columnasReales.includes(c));
-    if (faltantes.length > 0) {
-        console.error(
-            `${nombreArchivo}: faltan columnas esperadas: ${faltantes.join(", ")}. ` +
-            `Columnas encontradas: ${columnasReales.join(", ")}.`
-        );
-        return false;
-    }
-    return true;
-}
 
 let tePrometoLeerExcel = new Promise((resolve, reject) => {
     fetch("outputs/llamadas9112025/Histórico_AñoXMes_new.xlsx") // Debe estar accesible públicamente

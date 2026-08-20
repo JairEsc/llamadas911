@@ -7,7 +7,7 @@
 // que se suscribe solo, sin tocar este archivo ni logica.js.
 
 let estado = {
-    municipio: "Pachuca De Soto",
+    municipio: "Pachuca de Soto",
     colonia: "Centro (Colonia)",
     incidente: "Otras Alarmas De Emergencias Activadas (Seguridad)"
 };
