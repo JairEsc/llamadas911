@@ -28,7 +28,11 @@ let estado = {
     municipio: "Pachuca de Soto",
     colonia: "Centro (Colonia)",
     incidente: "Otras Alarmas De Emergencias Activadas (Seguridad)",
-    clasificacion: "Alarmas y objetos sospechosos"
+    clasificacion: "Alarmas y objetos sospechosos",
+    // Municipio seleccionado con click en el mapa coroplético (modo
+    // "Todos los municipios"). Lo usan serieTemporalChart.js y
+    // heatmapChart.js para su vista de detalle (ver mapaChart.js).
+    municipioClickeado: "Pachuca de Soto"
 };
 
 let seleccion_ids = {
@@ -48,5 +52,5 @@ function suscribirse(fn) {
 // Se llama cuando el estado ya quedó "asentado" (M, C, I, Cl finales) y se
 // quiere que todas las gráficas suscritas se vuelvan a dibujar.
 function notificarCambio() {
-    _listenersEstado.forEach(fn => fn(estado.municipio, estado.colonia, estado.incidente, estado.clasificacion));
+    _listenersEstado.forEach(fn => fn(estado.municipio, estado.colonia, estado.incidente, estado.clasificacion, estado.municipioClickeado));
 }

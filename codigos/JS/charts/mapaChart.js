@@ -11,6 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let Mapa_Act;
 let capaMunicipal = null;   // capa coroplética de "Todos los municipios"
 let leyendaMunicipal = null; // control de leyenda de esa capa
+let clasificacionMunicipalActual = null; // Clasificación con la que está dibujada capaMunicipal
 
 function renderMapa(M, C, I, Cl) {
     if (M === TODOS_MUNICIPIOS) {
@@ -100,6 +101,7 @@ function limpiarCapaMunicipal() {
         mapa.removeControl(leyendaMunicipal);
         leyendaMunicipal = null;
     }
+    clasificacionMunicipalActual = null;
 }
 
 // Mapa coroplético para "Todos los municipios" (RF-3): cada polígono de
@@ -117,6 +119,15 @@ function renderMapaMunicipal(Cl) {
         // datos (volver a un municipio específico); si ya no estamos en
         // la vista agregada, no dibujamos nada.
         if (estado.municipio !== TODOS_MUNICIPIOS || !MUNICIPAL_GEOJSON) {
+            return;
+        }
+
+        // El mapa coroplético ya está dibujado con esta misma
+        // Clasificación (p. ej. llegamos aquí por un click en un
+        // municipio, que solo debe actualizar serieTemporalChart.js y
+        // heatmapChart.js). Evitamos reconstruir la capa y volver a
+        // hacer fitBounds, que reiniciaría el zoom/centro del mapa.
+        if (capaMunicipal && clasificacionMunicipalActual === Cl) {
             return;
         }
 
@@ -151,11 +162,12 @@ function renderMapaMunicipal(Cl) {
                 const valor = feature.properties[columna];
                 const valorTexto = (valor === null || valor === undefined || isNaN(valor))
                     ? "Sin dato" : valor;
-                layer.bindTooltip(
-                    "<strong>" + feature.properties.Municipio + "</strong><br>" +
-                    Cl + ": " + valorTexto,
-                    { sticky: true }
-                );
+                const contenidoEtiqueta = "<strong>" + feature.properties.Municipio + "</strong><br>" +
+                    Cl + ": " + valorTexto;
+                layer.bindTooltip(contenidoEtiqueta, { sticky: true });
+                // El popup del modo municipal muestra exactamente el mismo
+                // contenido que la etiqueta (tooltip) de arriba.
+                layer.bindPopup(contenidoEtiqueta);
                 layer.on({
                     mouseover: (e) => e.target.setStyle({ weight: 3, color: "#450f21" }),
                     mouseout: (e) => capaMunicipal.resetStyle(e.target),
@@ -175,6 +187,7 @@ function renderMapaMunicipal(Cl) {
         });
         capaMunicipal.addTo(mapa);
         mapa.fitBounds(capaMunicipal.getBounds());
+        clasificacionMunicipalActual = Cl;
 
         dibujarLeyendaMunicipal(minVal, maxVal);
     });
