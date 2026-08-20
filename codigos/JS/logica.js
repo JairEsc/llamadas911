@@ -66,7 +66,8 @@ let tePrometoLeerExcel2 = new Promise((resolve, reject) => {
     );
 });
 
-Promise.all([tePrometoLeerExcel, tePrometoLeerExcel2]).then(
+
+Promise.all([tePrometoLeerExcel, tePrometoLeerExcel2, tePrometoLeerInfo]).then(
     () => {
         Rellenar_Mpio();
     },
