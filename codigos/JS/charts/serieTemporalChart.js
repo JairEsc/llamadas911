@@ -4,9 +4,9 @@
 
 let Hist;
 
-function renderSerieTemporal(M, C, I, Cl) {
+function renderSerieTemporal(M, C, I, Cl, Mc) {
     if (M === TODOS_MUNICIPIOS) {
-        renderSerieTemporalMunicipal(Cl);
+        renderSerieTemporalMunicipal(Cl, Mc);
         return;
     }
 

@@ -3,9 +3,9 @@
 
 let Heat;
 
-function renderHeatmap(M, C, I, Cl) {
+function renderHeatmap(M, C, I, Cl, Mc) {
     if (M === TODOS_MUNICIPIOS) {
-        renderHeatmapMunicipal(Cl);
+        renderHeatmapMunicipal(Cl, Mc);
         return;
     }
 

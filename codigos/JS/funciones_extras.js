@@ -107,11 +107,18 @@ function colorClasificacionMunicipal(valor, minVal, maxVal) {
     return RAMPA_COLOR_MUNICIPAL[idx];
 }
 
-// Muestra u oculta los filtros de Colonia/Incidente: no aplican cuando el
-// Municipio seleccionado es TODOS_MUNICIPIOS (vista agregada).
+// Muestra u oculta los filtros de Colonia e Incidente: no aplican cuando
+// el Municipio seleccionado es TODOS_MUNICIPIOS (vista agregada).
+// Clasificación se queda siempre visible (no está dentro de estos
+// wrappers) porque en la vista agregada sigue usándose directamente para
+// colorear el mapa coroplético y las gráficas municipales.
 function mostrarFiltrosPorMunicipio(mostrar) {
-    const wrapper = document.getElementById("filtros-colonia-incidente");
-    if (wrapper) {
-        wrapper.style.display = mostrar ? "" : "none";
+    const wrapperColonia = document.getElementById("filtro-colonia");
+    const wrapperIncidente = document.getElementById("filtro-incidente");
+    if (wrapperColonia) {
+        wrapperColonia.style.display = mostrar ? "" : "none";
+    }
+    if (wrapperIncidente) {
+        wrapperIncidente.style.display = mostrar ? "" : "none";
     }
 }

@@ -54,10 +54,12 @@ function renderMapa(M, C, I, Cl) {
         onEachFeature: function (feature, layer) {
             layer.on('click', function () {
                 // Al hacer click en una colonia del mapa, delegamos en
-                // Rellenar_Incidente (logica.js), que repuebla el
-                // datalist de incidentes para esa colonia y al final
-                // notifica el cambio — igual que hace el selector manual.
-                Rellenar_Incidente(estado.municipio, feature.properties.Colonia);
+                // Rellenar_Clasificacion (logica.js), que repuebla el
+                // datalist de Clasificación para esa colonia, dispara a
+                // su vez Rellenar_Incidente y al final notifica el
+                // cambio — igual que hace la cascada manual de selectores.
+                document.getElementById("selector_colonia").value = feature.properties.Colonia;
+                Rellenar_Clasificacion(estado.municipio, feature.properties.Colonia);
             });
             if (feature.properties && feature.properties.Recuento) {
                 layer.bindPopup("<h3 style='text-align: center; font-size: large;'><strong>" +
@@ -156,7 +158,18 @@ function renderMapaMunicipal(Cl) {
                 );
                 layer.on({
                     mouseover: (e) => e.target.setStyle({ weight: 3, color: "#450f21" }),
-                    mouseout: (e) => capaMunicipal.resetStyle(e.target)
+                    mouseout: (e) => capaMunicipal.resetStyle(e.target),
+                    // Al hacer click en un municipio del mapa coroplético,
+                    // actualizamos estado.municipioClickeado y notificamos
+                    // el cambio: serieTemporalChart.js y heatmapChart.js
+                    // están suscritos y se redibujan solos con el detalle
+                    // de ese municipio (RF-4.1/RF-4.2). El mapa/treemap se
+                    // quedan igual porque siguen dependiendo de Cl, no de
+                    // municipioClickeado.
+                    click: () => {
+                        estado.municipioClickeado = feature.properties.Municipio;
+                        notificarCambio();
+                    }
                 });
             }
         });

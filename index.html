@@ -35,32 +35,34 @@
 
     <main>
         <nav class="sidebar d-flex flex-column flex-shrink-0 position-fixed">
-            Municipio:
-            <input type="text" id="selector_municipio" list="Mpios" placeholder="" style="width: 18vw;"
-                onchange="Rellenar_Colonia(this.value)">
-            <datalist id="Mpios" style="width: 18vw;"></datalist>
+    Municipio:
+    <input type="text" id="selector_municipio" list="Mpios" placeholder="" style="width: 18vw;"
+        onchange="Rellenar_Colonia(this.value)">
+    <datalist id="Mpios" style="width: 18vw;"></datalist>
 
-            <div id="filtros-colonia-incidente">
-                Colonia:
-                <input type="text" id="selector_colonia" list="Cols" placeholder="" style="width: 18vw;"
-                    onchange="Rellenar_Incidente(estado.municipio,this.value)">
-                <datalist id="Cols" style="width: 18vw;"></datalist>
+    <div id="filtro-colonia">
+        Colonia:
+        <input type="text" id="selector_colonia" list="Cols" placeholder="" style="width: 18vw;"
+            onchange="Rellenar_Clasificacion(estado.municipio,this.value)">
+        <datalist id="Cols" style="width: 18vw;"></datalist>
+    </div>
 
-                Incidente:
-                <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
-                    onchange="estado.incidente=this.value; notificarCambio()">
-                <datalist id="Inds" style="width: 18vw;"></datalist>
-            </div>
+    Clasificación:
+    <input type="text" id="selector_clasificacion" list="Clas" placeholder="" style="width: 18vw;"
+        onchange="Rellenar_Incidente(estado.municipio, estado.colonia, this.value)">
+    <datalist id="Clas" style="width: 18vw;"></datalist>
 
-            Clasificación:
-            <input type="text" id="selector_clasificacion" list="Clas" placeholder="" style="width: 18vw;"
-                onchange="estado.clasificacion=this.value; notificarCambio()">
-            <datalist id="Clas" style="width: 18vw;"></datalist>
+    <div id="filtro-incidente">
+        Incidente:
+        <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
+            onchange="estado.incidente=this.value; notificarCambio()">
+        <datalist id="Inds" style="width: 18vw;"></datalist>
+    </div>
 
-            <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 
-                <img src="assets/patch-question.svg" fill="white" alt="Bootstrap" width="32" height="32">
-</button>
-        </nav>
+    <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 
+        <img src="assets/patch-question.svg" fill="white" alt="Bootstrap" width="32" height="32">
+    </button>
+</nav>
 
 
         <!--MAPA-->

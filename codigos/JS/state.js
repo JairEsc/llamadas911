@@ -6,12 +6,17 @@
 // agregar una gráfica nueva en el futuro es agregar un archivo nuevo
 // que se suscribe solo, sin tocar este archivo ni logica.js.
 //
-// Clasificación es un filtro nuevo e independiente de Municipio/Colonia/
-// Incidente: sus opciones salen de la columna "Clasificacion" de
-// Base 911.json (coincide 1 a 1 con las columnas de Base municipal.geojson,
-// ver Cargar_Resumen.js y Cargar_Municipal.js). El valor por defecto de
-// abajo corresponde a la Clasificación del Incidente por defecto, para
-// que el estado inicial sea consistente.
+// Cascada de filtros: Municipio -> Colonia -> Clasificación -> Incidente.
+// Para un municipio específico, las opciones de Clasificación dependen de
+// Municipio + Colonia, y las de Incidente dependen además de la
+// Clasificación elegida (ver Rellenar_Clasificacion/Rellenar_Incidente en
+// logica.js). Sólo en la vista agregada "Todos los municipios" (donde
+// Colonia/Incidente no aplican) Clasificación muestra el catálogo
+// completo, tomado de la columna "Clasificacion" de Base 911.json
+// (coincide 1 a 1 con las columnas de Base municipal.geojson, ver
+// Cargar_Resumen.js y Cargar_Municipal.js). El valor por defecto de abajo
+// corresponde a la Clasificación del Incidente por defecto, para que el
+// estado inicial sea consistente.
 //
 // Municipio puede tomar además el valor especial TODOS_MUNICIPIOS: en ese
 // caso Colonia/Incidente dejan de aplicar (se ocultan) y el mapa/las

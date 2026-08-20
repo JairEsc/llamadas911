@@ -69,8 +69,10 @@ let tePrometoLeerExcel2 = new Promise((resolve, reject) => {
 
 Promise.all([tePrometoLeerExcel, tePrometoLeerExcel2, tePrometoLeerInfo]).then(
     () => {
+        // La cascada completa (Municipio -> Colonia -> Clasificación ->
+        // Incidente) arranca sola desde Rellenar_Mpio(); ya no hace falta
+        // llamar a Clasificación por separado.
         Rellenar_Mpio();
-        Rellenar_Clasificacion();
     },
 );
 
@@ -101,10 +103,13 @@ function Rellenar_Mpio() {
     Rellenar_Colonia(primer_municipio);
 }
 
-// Clasificación (RF-1): se llama una sola vez, cuando ya se cargó
-// Base 911.json y por lo tanto ya existe la lista CLASIFICACIONES
-// (ver Cargar_Resumen.js).
-function Rellenar_Clasificacion() {
+// Clasificación, sólo para la vista agregada "Todos los municipios"
+// (RF-2): ahí Colonia/Incidente no aplican, así que Clasificación no se
+// filtra por Colonia y muestra el catálogo completo (CLASIFICACIONES,
+// ver Cargar_Resumen.js). Para la vista de un municipio específico, las
+// opciones de Clasificación las llena Rellenar_Clasificacion(M, C) más
+// abajo, filtradas por Municipio + Colonia.
+function Rellenar_Clasificacion_Global() {
     const datalist = document.getElementById('Clas');
     datalist.innerHTML = '';
 
@@ -114,9 +119,9 @@ function Rellenar_Clasificacion() {
         datalist.appendChild(option);
     });
 
-    // Si el valor por defecto de estado.js no existiera entre las
-    // Clasificaciones reales (p. ej. si cambia el pipeline de datos),
-    // caemos a la primera disponible en vez de dejar el selector vacío.
+    // Si el valor actual no existiera entre las Clasificaciones reales
+    // (p. ej. si cambia el pipeline de datos), caemos a la primera
+    // disponible en vez de dejar el selector vacío.
     if (!CLASIFICACIONES.includes(estado.clasificacion)) {
         estado.clasificacion = CLASIFICACIONES[0];
     }
@@ -131,8 +136,10 @@ function Rellenar_Colonia(M) {
         // Vista agregada (RF-2): Colonia e Incidente no aplican aquí, así
         // que se ocultan y no se corre la cascada habitual. El mapa y las
         // gráficas municipales reaccionan directamente a Clasificación
-        // (ver renderMapa/renderTreemap/renderSerieTemporal/renderHeatmap).
+        // (ver renderMapa/renderTreemap/renderSerieTemporal/renderHeatmap),
+        // que en este caso muestra el catálogo completo.
         mostrarFiltrosPorMunicipio(false);
+        Rellenar_Clasificacion_Global();
         notificarCambio();
         return;
     }
@@ -154,12 +161,57 @@ function Rellenar_Colonia(M) {
     document.getElementById("selector_colonia").value = lista[0];
 
     let primera_colonia = lista[0];
-    Rellenar_Incidente(M, primera_colonia);
+    Rellenar_Clasificacion(M, primera_colonia);
 }
 
-// Incidente
-function Rellenar_Incidente(M, C) {
+// Clasificación (para un municipio específico): sus opciones son las
+// Clasificaciones de los Incidentes que realmente existen para la
+// combinación Municipio + Colonia, usando el mapeo
+// INCIDENTE_A_CLASIFICACION (derivado de Base 911.json, ver
+// Cargar_Resumen.js). Al terminar, dispara Rellenar_Incidente para que
+// el campo Incidente quede filtrado por esta Clasificación.
+function Rellenar_Clasificacion(M, C) {
     estado.colonia = C;
+
+    let clasificacion_anterior = estado.clasificacion;
+
+    const datalist = document.getElementById('Clas');
+    datalist.innerHTML = '';
+
+    let filtrado_M = AñoXMes.filter(row => row.Municipio === M);
+    let filtrado_MC = filtrado_M.filter(row => row.Colonia === C);
+    let incidentesDisponibles = [...new Set(filtrado_MC.map(row => row.Incidente))];
+
+    let lista = [...new Set(
+        incidentesDisponibles
+            .map(incidente => INCIDENTE_A_CLASIFICACION[incidente])
+            .filter(c => c !== null && c !== undefined && c !== "")
+    )].sort((a, b) => a.localeCompare(b, "es"));
+
+    lista.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        datalist.appendChild(option);
+    });
+
+    // Si la Clasificación previamente elegida sigue siendo válida para
+    // esta Colonia, se conserva; si no, caemos a la primera disponible.
+    let clasificacion_actual = lista.includes(clasificacion_anterior)
+        ? clasificacion_anterior
+        : lista[0];
+
+    document.getElementById("selector_clasificacion").value = clasificacion_actual;
+
+    Rellenar_Incidente(M, C, clasificacion_actual);
+}
+
+// Incidente: depende de Municipio + Colonia + Clasificación. Si el
+// usuario cambia de Clasificación, el Incidente anterior deja de estar
+// en la lista filtrada (cada Incidente pertenece a una sola
+// Clasificación) y el campo se "limpia" solo, cayendo al primero de la
+// nueva lista.
+function Rellenar_Incidente(M, C, Cl) {
+    estado.clasificacion = Cl;
 
     let incidente_anterior = estado.incidente;
 
@@ -167,8 +219,9 @@ function Rellenar_Incidente(M, C) {
     datalist.innerHTML = '';
 
     let filtrado_M = AñoXMes.filter(row => row.Municipio === M);
-    let filtrado_M2 = filtrado_M.filter(row => row.Colonia === C);
-    let lista = [...new Set(filtrado_M2.map(row => row.Incidente))];
+    let filtrado_MC = filtrado_M.filter(row => row.Colonia === C);
+    let filtrado_MCCl = filtrado_MC.filter(row => INCIDENTE_A_CLASIFICACION[row.Incidente] === Cl);
+    let lista = [...new Set(filtrado_MCCl.map(row => row.Incidente))];
 
     lista.forEach(item => {
         const option = document.createElement('option');
