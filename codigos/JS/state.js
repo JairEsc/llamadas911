@@ -37,7 +37,7 @@ const TODOS_INCIDENTES = "Todas";
 let estado = {
     municipio: "Pachuca de Soto",
     colonia: "Centro (Colonia)",
-    incidente: "Otras Alarmas De Emergencias Activadas (Seguridad)",
+    incidente: "Todas",
     clasificacion: "Alarmas y objetos sospechosos",
     // Municipio seleccionado con click en el mapa coroplético (modo
     // "Todos los municipios"). Lo usan serieTemporalChart.js y
