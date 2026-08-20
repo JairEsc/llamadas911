@@ -9,11 +9,16 @@ function renderTreemap(M, C, I, Cl) {
         return;
     }
 
+    // El treemap se filtra por la Clasificación seleccionada Cl (además
+    // de Municipio + Colonia), sin importar si el Incidente elegido es
+    // uno específico o TODOS_INCIDENTES ("Todas"): siempre muestra el
+    // desglose de los incidentes que pertenecen a esa Clasificación.
     const Colonia_feature = {
         type: "FeatureCollection",
         features: INFO.features.filter(feature =>
             feature.properties.Municipio === M &&
-            feature.properties.Colonia === C
+            feature.properties.Colonia === C &&
+            INCIDENTE_A_CLASIFICACION[feature.properties.Incidente] === Cl
         )
     };
     const datosParaGrafica = Colonia_feature.features.map(f => ({
@@ -87,6 +92,14 @@ function renderTreemap(M, C, I, Cl) {
                 },
                 title: {
                     text: "Top de incidentes en " + C + ", " + M,
+                    display: true,
+                    padding: { top: 0, bottom: 0 },
+                },
+                // Subtítulo con la Clasificación: el treemap ahora
+                // siempre está filtrado por ella, así que siempre es
+                // relevante mostrarla.
+                subtitle: {
+                    text: Cl,
                     display: true,
                     padding: { top: 0, bottom: 0 },
                 },
