@@ -55,3 +55,63 @@ function validarColumnas(datos, columnasEsperadas, nombreArchivo) {
     }
     return true;
 }
+
+// ---------------------------------------------------------------
+// Utilidades para la vista "Todos los municipios" (mapa coroplético,
+// serieTemporalChart, heatmapChart y treemapChart agregados).
+// ---------------------------------------------------------------
+
+// Normaliza texto para comparar Clasificación vs columnas del GeoJSON de
+// forma robusta ante acentos, mayúsculas/minúsculas o espacios extra.
+function normalizarTexto(txt) {
+    if (txt === null || txt === undefined) return "";
+    return txt.toString()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+}
+
+// Dado el objeto "properties" de un feature de Base municipal.geojson y el
+// nombre de la Clasificación seleccionada, regresa el nombre exacto de la
+// columna del GeoJSON que le corresponde (o null si no se encuentra).
+function buscarColumnaClasificacion(propiedades, clasificacion) {
+    if (!propiedades) return null;
+    if (Object.prototype.hasOwnProperty.call(propiedades, clasificacion)) {
+        return clasificacion;
+    }
+    const objetivo = normalizarTexto(clasificacion);
+    const encontrada = Object.keys(propiedades).find(
+        (columna) => normalizarTexto(columna) === objetivo
+    );
+    return encontrada || null;
+}
+
+// Escala de color secuencial (usada por el mapa coroplético municipal),
+// en tonos del color institucional de la app (#691c32).
+const RAMPA_COLOR_MUNICIPAL = ["#f6e8ec", "#e3aebd", "#c96e8b", "#a13154", "#691c32", "#450f21"];
+const COLOR_SIN_DATO_MUNICIPAL = "#e0e0e0";
+
+function colorClasificacionMunicipal(valor, minVal, maxVal) {
+    if (valor === null || valor === undefined || isNaN(valor)) {
+        return COLOR_SIN_DATO_MUNICIPAL;
+    }
+    if (maxVal === minVal) {
+        return RAMPA_COLOR_MUNICIPAL[RAMPA_COLOR_MUNICIPAL.length - 1];
+    }
+    const proporcion = (valor - minVal) / (maxVal - minVal);
+    const idx = Math.min(
+        RAMPA_COLOR_MUNICIPAL.length - 1,
+        Math.floor(proporcion * RAMPA_COLOR_MUNICIPAL.length)
+    );
+    return RAMPA_COLOR_MUNICIPAL[idx];
+}
+
+// Muestra u oculta los filtros de Colonia/Incidente: no aplican cuando el
+// Municipio seleccionado es TODOS_MUNICIPIOS (vista agregada).
+function mostrarFiltrosPorMunicipio(mostrar) {
+    const wrapper = document.getElementById("filtros-colonia-incidente");
+    if (wrapper) {
+        wrapper.style.display = mostrar ? "" : "none";
+    }
+}

@@ -40,17 +40,22 @@
                 onchange="Rellenar_Colonia(this.value)">
             <datalist id="Mpios" style="width: 18vw;"></datalist>
 
-            Colonia:
-            <input type="text" id="selector_colonia" list="Cols" placeholder="" style="width: 18vw;"
-                onchange="Rellenar_Incidente(estado.municipio,this.value)">
-            <datalist id="Cols" style="width: 18vw;"></datalist>
+            <div id="filtros-colonia-incidente">
+                Colonia:
+                <input type="text" id="selector_colonia" list="Cols" placeholder="" style="width: 18vw;"
+                    onchange="Rellenar_Incidente(estado.municipio,this.value)">
+                <datalist id="Cols" style="width: 18vw;"></datalist>
 
-            
+                Incidente:
+                <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
+                    onchange="estado.incidente=this.value; notificarCambio()">
+                <datalist id="Inds" style="width: 18vw;"></datalist>
+            </div>
 
-            Incidente:
-            <input type="text" id="selector_incidente" list="Inds" placeholder="" style="width: 18vw;"
-                onchange="estado.incidente=this.value; notificarCambio()">
-            <datalist id="Inds" style="width: 18vw;"></datalist>
+            Clasificación:
+            <input type="text" id="selector_clasificacion" list="Clas" placeholder="" style="width: 18vw;"
+                onchange="estado.clasificacion=this.value; notificarCambio()">
+            <datalist id="Clas" style="width: 18vw;"></datalist>
 
             <button id="tour-btn" class="tour-btn" type="button" onclick="startDashboardTour()">Explicación 
                 <img src="assets/patch-question.svg" fill="white" alt="Bootstrap" width="32" height="32">
@@ -85,6 +90,7 @@
     <script src="codigos/JS/state.js"></script>
     <script src="codigos/JS/funciones_extras.js"></script>
     <script src="codigos/JS/Cargar_Resumen.js"></script>
+    <script src="codigos/JS/Cargar_Municipal.js"></script>
     <script src="codigos/JS/charts/mapaChart.js"></script>
     <script src="codigos/JS/charts/treemapChart.js"></script>
     <script src="codigos/JS/charts/serieTemporalChart.js"></script>

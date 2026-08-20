@@ -70,6 +70,7 @@ let tePrometoLeerExcel2 = new Promise((resolve, reject) => {
 Promise.all([tePrometoLeerExcel, tePrometoLeerExcel2, tePrometoLeerInfo]).then(
     () => {
         Rellenar_Mpio();
+        Rellenar_Clasificacion();
     },
 );
 
@@ -80,12 +81,19 @@ function Rellenar_Mpio() {
 
     let lista = [...new Set(AñoXMes.map(row => row.Municipio))];
 
-    lista.forEach(item => {
+    // Opción agregada (RF-2): además de cada municipio individual, se
+    // puede elegir "Todos los municipios" para la vista estadística
+    // agregada (mapa coroplético + gráficas municipales).
+    const listaConTodos = [TODOS_MUNICIPIOS, ...lista];
+
+    listaConTodos.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
         datalist.appendChild(option);
     });
 
+    // El comportamiento por defecto al cargar la página se conserva: se
+    // sigue arrancando en un municipio específico, no en la vista agregada.
     document.getElementById("selector_municipio").value = "";
     document.getElementById("selector_municipio").value = lista[0];
 
@@ -93,9 +101,43 @@ function Rellenar_Mpio() {
     Rellenar_Colonia(primer_municipio);
 }
 
+// Clasificación (RF-1): se llama una sola vez, cuando ya se cargó
+// Base 911.json y por lo tanto ya existe la lista CLASIFICACIONES
+// (ver Cargar_Resumen.js).
+function Rellenar_Clasificacion() {
+    const datalist = document.getElementById('Clas');
+    datalist.innerHTML = '';
+
+    CLASIFICACIONES.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        datalist.appendChild(option);
+    });
+
+    // Si el valor por defecto de estado.js no existiera entre las
+    // Clasificaciones reales (p. ej. si cambia el pipeline de datos),
+    // caemos a la primera disponible en vez de dejar el selector vacío.
+    if (!CLASIFICACIONES.includes(estado.clasificacion)) {
+        estado.clasificacion = CLASIFICACIONES[0];
+    }
+    document.getElementById("selector_clasificacion").value = estado.clasificacion;
+}
+
 // Colonia
 function Rellenar_Colonia(M) {
     estado.municipio = M;
+
+    if (M === TODOS_MUNICIPIOS) {
+        // Vista agregada (RF-2): Colonia e Incidente no aplican aquí, así
+        // que se ocultan y no se corre la cascada habitual. El mapa y las
+        // gráficas municipales reaccionan directamente a Clasificación
+        // (ver renderMapa/renderTreemap/renderSerieTemporal/renderHeatmap).
+        mostrarFiltrosPorMunicipio(false);
+        notificarCambio();
+        return;
+    }
+    mostrarFiltrosPorMunicipio(true);
+
     const datalist = document.getElementById('Cols');
     datalist.innerHTML = '';
 
@@ -156,5 +198,8 @@ $("#selector_incidente").focus(function () {
     $(this).val('');
 });
 $("#selector_municipio").focus(function () {
+    $(this).val('');
+});
+$("#selector_clasificacion").focus(function () {
     $(this).val('');
 });
