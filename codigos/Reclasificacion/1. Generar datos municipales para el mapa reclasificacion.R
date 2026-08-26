@@ -94,4 +94,13 @@ mes = mes |>
 mes = mes |> 
   dplyr::select(-Incidente) |> 
   dplyr::rename(Incidente = Clasificacion) |> 
-  dplyr::relocate(Incidente, .after = Municipio) |> 
+  dplyr::relocate(Incidente, .after = Municipio) 
+
+mes = mes |> 
+  dplyr::group_by(Municipio, Incidente, Fecha) |> 
+  dplyr::summarise(Recuento = Recuento |>  sum(na.rm = T)) |> 
+  dplyr::ungroup() |> 
+  dplyr::arrange(Municipio, Incidente, Fecha)
+
+
+mes |>  openxlsx::write.xlsx("outputs/Estadistica Ejercicio/Municipio/Histórico_AñoXMes_municipal.xlsx")

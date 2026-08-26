@@ -36,7 +36,7 @@ top_collapse = percentil |>
 
 ####################
 
-datos = "outputs/Estadistica Ejercicio/Base 911.xlsx" |>  readxl::read_excel()
+datos = "outputs/Base 911.json"  |> jsonlite::read_json(simplifyVector = T)
 
 datos = datos |> 
   dplyr::select(-c(X, Y))
@@ -90,7 +90,7 @@ for (i in 1:nrow(top_collapse)) {
     excel |>  openxlsx::writeData(sheet = nombres[j] |>  substr(start = 1, stop = 30) |>  stringr::str_squish(), x = p)
   }
   
-  openxlsx::saveWorkbook(excel, paste0("outputs/Estadistica Ejercicio/Heatmap/Resumenes/", top_collapse$Categoria[i], ".xlsx"), overwrite = TRUE)
+  openxlsx::saveWorkbook(excel, paste0("outputs/Estadistica Ejercicio/Heatmap/Resumenes_Llamadas/", top_collapse$Categoria[i], ".xlsx"), overwrite = TRUE)
   
 }
 
