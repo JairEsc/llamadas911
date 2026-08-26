@@ -321,6 +321,8 @@ secretariado |>  openxlsx::write.xlsx("outputs/Estadistica Ejercicio/Heatmap/Sec
 
 ###############
 
+library(ggplot2)
+
 llamadas = "outputs/Estadistica Ejercicio/Heatmap/Llamadas911.xlsx" |>  readxl::read_excel()
 
 categorias = llamadas |>  names()

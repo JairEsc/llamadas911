@@ -99,7 +99,7 @@ datos = datos |>
 
 
   
-datos |>  sf::st_write("outputs/Estadistica Ejercicio/Base reclasificacion 911.geojson")
+datos |>  sf::st_write("outputs/Estadistica Ejercicio/Base reclasificacion 911.geojson", delete_dsn = T)
 
 
 
