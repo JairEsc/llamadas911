@@ -435,7 +435,8 @@ ggplot2::ggsave(
 
 
 
-secretariado = "outputs/Estadistica Ejercicio/Heatmap/Secretariado.xlsx" |>  readxl::read_excel()
+secretariado = "outputs/Estadistica Ejercicio/Municipios Secretariado.xlsx" |>  readxl::read_excel()
+
 
 categorias = (secretariado |>  names())[2:ncol(secretariado)]
 
